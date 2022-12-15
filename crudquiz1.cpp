@@ -62,16 +62,9 @@ void displayList(List *ls) {
     while (tmp!=NULL) {
         system("clear");
         cout<<tmp->q.questionName<<endl;
-<<<<<<< HEAD
         cout<<"a. "<<tmp->q.a.a1<<endl;
         cout<<"b. "<<tmp->q.a.a2<<endl;
         cout<<"c. "<<tmp->q.a.a3<<endl;
-=======
-        cout<<tmp->q.a.a1<<endl;
-        cout<<tmp->q.a.a2<<endl;
-        cout<<tmp->q.a.a3<<endl;
-        cout<<"<<<<<Previous (0)\t\t\t\t\t\tNext (1)>>>>>"<<endl;
->>>>>>> f40ceb275960175eb8c0f2520b29367b9c650a74
         cout<<">>>>> Input answer: ";
         cin>>tmp->q.answer;
         switch(tmp->q.answer){
