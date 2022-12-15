@@ -73,12 +73,13 @@ void displayList(List *ls) {
 void createQuestions(){
     List* ls;
     ls = createEmptyList();
-    AddtoList(ls, 1 ,"question1 :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 2 ,"question2:"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 3 ,"question3 :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 4 ,"question4 :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 5 ,"question5 :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 5 ,"question6 :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 1 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 2 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 3 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 4 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 6 ,"question :"," answer1: "," answer2: "," answer3: ");
     displayList(ls);
 }
 
