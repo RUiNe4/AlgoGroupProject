@@ -1,4 +1,5 @@
 #include <iostream>
+#include <conio.h>
 using namespace std;
 
 struct Element {
@@ -63,10 +64,36 @@ void displayList(List *ls) {
         cout<<tmp->q.a.a1<<endl;
         cout<<tmp->q.a.a2<<endl;
         cout<<tmp->q.a.a3<<endl;
+        cout<<"<<<<<Previous (0)\t\t\t\t\t\tNext (1)>>>>>"<<endl;
         cout<<">>>>> Input answer: ";
         cin>>tmp->q.answer;
-        cout<<tmp->q.answer<<endl;
-        tmp = tmp->previous;
+        switch(tmp->q.answer){
+            case 'a':
+            cout<<tmp->q.answer;
+            tmp = tmp->previous;
+            break;
+            case 'b':
+            cout<<tmp->q.answer;
+            tmp = tmp->previous;
+            break;
+            case 'c':
+            cout<<tmp->q.answer;
+            tmp = tmp->previous;
+            break;
+            case '0':
+            if(tmp == NULL){
+                cout<<"Cannot go to previous question";
+            }else{
+                tmp = tmp->next;
+            }
+            break;
+            case '1':
+            if(tmp == NULL){
+                cout<<"No more next";
+            }else{
+                tmp = tmp->previous;
+            }
+        }
     }
 }
 
