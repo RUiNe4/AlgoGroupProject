@@ -74,6 +74,7 @@ void createQuestions(){
     List* ls;
     ls = createEmptyList();
     AddtoList(ls, 1 ,"question :"," answer1: "," answer2: "," answer3: ");
+
     displayList(ls);
 }
 
