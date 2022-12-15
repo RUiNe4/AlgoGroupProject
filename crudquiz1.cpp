@@ -97,6 +97,7 @@ void createQuestions(){
     AddtoList(ls,22,"- What is the most common operation system across all devices? (tablet, phone, laptop)?","a: ios ","b:  Google android os","c: Htl");
     AddtoList(ls,23,"- One byte is equal to how many bits?","a: 5 bits","b: 7 bits","c: 8 bits");//c
     AddtoList(ls,24,"- How can you create a variable with the numeric value 5?","a: num = 5;","b: num = 5 int;","c: ");
+    AddtoList(ls,25,"- How can you create a variable with the numeric value 5?","a: num = 5;","b: num = 5 int;","c: ");
 
     displayList(ls);
 }
