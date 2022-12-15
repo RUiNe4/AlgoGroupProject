@@ -74,7 +74,7 @@ void deleteQuestion(List *ls, int index){
 void createQuestions(){
  List* ls;
     ls = createEmptyList();
-    AddtoList(ls, 1 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 1 ,"luestion :"," answer1: "," answer2: "," answer3: ");
     AddtoList(ls, 2 ,"question :"," answer1: "," answer2: "," answer3: ");
     AddtoList(ls, 3 ,"question :"," answer1: "," answer2: "," answer3: ");
     AddtoList(ls, 4 ,"question :"," answer1: "," answer2: "," answer3: ");
