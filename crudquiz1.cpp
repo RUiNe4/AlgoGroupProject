@@ -79,7 +79,6 @@ void createQuestions(){
     AddtoList(ls, 4 ,"question :"," answer1: "," answer2: "," answer3: ");
     AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
     AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 7 ,"question :"," answer1: "," answer2: "," answer3: ");
     displayList(ls);
 }
 
