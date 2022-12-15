@@ -60,11 +60,18 @@ void displayList(List *ls) {
     Element *tmp;
     tmp = ls->tail;
     while (tmp!=NULL) {
+        system("clear");
         cout<<tmp->q.questionName<<endl;
+<<<<<<< HEAD
+        cout<<"a. "<<tmp->q.a.a1<<endl;
+        cout<<"b. "<<tmp->q.a.a2<<endl;
+        cout<<"c. "<<tmp->q.a.a3<<endl;
+=======
         cout<<tmp->q.a.a1<<endl;
         cout<<tmp->q.a.a2<<endl;
         cout<<tmp->q.a.a3<<endl;
         cout<<"<<<<<Previous (0)\t\t\t\t\t\tNext (1)>>>>>"<<endl;
+>>>>>>> f40ceb275960175eb8c0f2520b29367b9c650a74
         cout<<">>>>> Input answer: ";
         cin>>tmp->q.answer;
         switch(tmp->q.answer){
@@ -100,31 +107,62 @@ void displayList(List *ls) {
 void createQuestions(){
     List* ls;
     ls = createEmptyList();
-    AddtoList(ls, 1 ,"- Cambodia academy of digital technology is located in :"," a: Prek Leap "," b: Wat Phnom "," c: Jomkadoung");
-    AddtoList(ls, 2 ,"- What is the boiling point of water?"," a: 120 celcius"," b: 100 celcius "," c: 95 celcius ");
-    AddtoList(ls, 3, "- The coldest continent in the world is.","a: Antarctica","b: Greenland","c: Alaska");
-    AddtoList(ls,4,"- Techo scholarship provides monthly pay for the scholarship student, how much does each student receive for generation 8? ","a: 70$","b : 80$","c: 90$");
-    AddtoList(ls,5,"- What is the name of CADT before it was changed? ","a: NIPTICT","b : ITC","c: NPIC");
-    AddtoList(ls,6,"- What is the national flower of cambodia?","a: Lotus","b : Wild lilly","c: Romdoul");
-    AddtoList(ls,7,"- Which city host the 2002 olympic?","a: Beijing","b: Sydney","c: Tokyo");//it's sydney
-    AddtoList(ls,8,"-  Where was tea invented?","a: England","b: USA","c: China");
-    AddtoList(ls,9,"- What language does the Cambodian speak?","a: Cambodese","b: Khmer","c: Khmeir");
-    AddtoList(ls,10,"- What year was the first computer virus created in?","a: 1993","b: 1965","c: 1986");//1986
-    AddtoList(ls,11,"- One megabyte is equal to how many bytes?","a: 1000 byte","b: 1000000 byte","c: 1048576 bytes");//c
-    AddtoList(ls,12,"- Apple was created in which country?","a: America","b: China" ,"c: Korea");
-    AddtoList(ls,13,"- Which is the correct syntax to output “hello world” in c++?","a: system.out.println(“Hello world”);","b: print(“hello world”);","c: cout<<”hello world”;");
-    AddtoList(ls,14,"- How do you insert COMMENTs in C++ code?","a: # this is a comment","b: // this is  comment","c: - - this is a comment.");
-    AddtoList(ls,15,"-  How do you create a function in c++?","a: Functionname{}","b: Functionname[]","c: Functionname()");
-    AddtoList(ls,16,"- Which operator is used to add together two values?","a: The + sign ","b: The & sign","c: The * sign");
-    AddtoList(ls,17,"-  Which header file lets us work with input and output objects?","a: #include <iostream>","b: #include <inputstr>","c: #include <stream>");
-    AddtoList(ls,18,"-  Which method can be used to find the highest value of x and y?","a: largest(x,y)","b: maximum(x,y)","c: max(x,y)  ");//max
-    AddtoList(ls,19,"- Which operator is used to multiply numbers?","a: %","b: /","c: *");//c
-    AddtoList(ls,20,"- What does HTML stand for?","a: Hyperlinks and Text Markup Language","b: Hyper Text Markup Language ","c: Home Tool Markup Language");
-    AddtoList(ls,21,"- Choose the correct HTML element for the largest heading:","a: <h1>","b: <h6>","c: <heading>");
-    AddtoList(ls,22,"- What is the most common operation system across all devices? (tablet, phone, laptop)?","a: ios ","b:  Google android os","c: Htl");
-    AddtoList(ls,23,"- One byte is equal to how many bits?","a: 5 bits","b: 7 bits","c: 8 bits");//c
-    AddtoList(ls,24,"- How can you create a variable with the numeric value 5?","a: num = 5;","b: num = 5 int;","c: int num = 5");
-    AddtoList(ls,26,"- Which statement is used to stop a loop?","a: exit;","b: break;","c: void");
+    AddtoList(ls, 1 ,"- Cambodia academy of digital technology is located in :","Prek Leap ","Wat Phnom ","Jomkadoung");
+    AddtoList(ls, 2 ,"- What is the boiling point of water?"," 120 celcius"," 100 celcius "," 95 celcius ");
+    AddtoList(ls, 3, "- The coldest continent in the world is.","Antarctica","Greenland","Alaska");
+    AddtoList(ls,4,"- Techo scholarship provides monthly pay for the scholarship student, how much does each student receive for generation 8? ","70$","b : 80$","90$");
+    AddtoList(ls,5,"- What is the name of CADT before it was changed? ","NIPTICT","b : ITC","NPIC");
+    AddtoList(ls,6,"- What is the national flower of cambodia?","Lotus","Wild lilly","Romdoul");
+    AddtoList(ls,7,"- Which city host the 2002 olympic?","Beijing","Sydney","Tokyo");//it's sydney
+    AddtoList(ls,8,"-  Where was tea invented?","England","USA","China");
+    AddtoList(ls,9,"- What language does the Cambodian speak?","Cambodese","Khmer","Khmeir");
+    AddtoList(ls,10,"- What year was the first computer virus created in?","1993","1965","1986");//1986
+    AddtoList(ls,11,"- One megabyte is equal to how many bytes?","1000 byte","1000000 byte","1048576 bytes");//c
+    AddtoList(ls,12,"- Apple was created in which country?","America","China" ,"Korea");
+    AddtoList(ls,13,"- Which is the correct syntax to output “hello world” in c++?","system.out.println(“Hello world”);","print(“hello world”);","cout<<”hello world”;");
+    AddtoList(ls,14,"- How do you insert COMMENTs in C++ code?","# this is a comment","// this is  comment","- - this is a comment.");
+    AddtoList(ls,15,"-  How do you create a function in c++?","Functionname{}","Functionname[]","Functionname()");
+    AddtoList(ls,16,"- Which operator is used to add together two values?","The + sign ","The & sign","The * sign");
+    AddtoList(ls,17,"-  Which header file lets us work with input and output objects?","#include <iostream>","#include <inputstr>","#include <stream>");
+    AddtoList(ls,18,"-  Which method can be used to find the highest value of x and y?","largest(x,y)","maximum(x,y)","max(x,y)  ");//max
+    AddtoList(ls,19,"- Which operator is used to multiply numbers?","%","/","*");//c
+    AddtoList(ls,20,"- What does HTML stand for?","Hyperlinks and Text Markup Language","Hyper Text Markup Language ","Home Tool Markup Language");
+    AddtoList(ls,21,"- Choose the correct HTML element for the largest heading:","<h1>","<h6>","<heading>");
+    AddtoList(ls,22,"- What is the most common operation system across all devices? (tablet, phone, laptop)?","ios "," Google android os","Htl");
+    AddtoList(ls,23,"- One byte is equal to how many bits?","5 bits","7 bits","8 bits");//c
+    AddtoList(ls,24,"- How can you create a variable with the numeric value 5?","num = 5;","num = 5 int;","int num = 5");
+    AddtoList(ls,27,"- Which statement is used to stop a loop?","exit;","break;","void");
+    AddtoList(ls,25,"- How can you create a variable with the floating number 2.8?","num = 2.8 double;","float num = 2.8;","num = 2.8 double;");
+    AddtoList(ls,26,"- Which function is often used to output values and print text in c?","printword();","output();","printf();");
+    AddtoList(ls,28,"- Which keyword is used to create a structure?","","","");
+    AddtoList(ls,29,"- ","","","");
+    AddtoList(ls,30,"- ","","","");
+    AddtoList(ls,31,"- ","","","");
+    AddtoList(ls,32,"- ","","","");
+    AddtoList(ls,33,"- ","","","");
+    AddtoList(ls,34,"- ","","","");
+    AddtoList(ls,35,"- ","","","");
+    AddtoList(ls,36,"- ","","","");
+    AddtoList(ls,37,"- ","","","");
+    AddtoList(ls,38,"- ","","","");
+    AddtoList(ls,39,"- ","","","");
+    AddtoList(ls,40,"- ","","","");
+    AddtoList(ls,41,"- ","","","");
+    AddtoList(ls,42,"- ","","","");
+    AddtoList(ls,43,"- ","","","");
+    AddtoList(ls,44,"- ","","","");
+    AddtoList(ls,45,"- ","","","");
+    AddtoList(ls,46,"- ","","","");
+    AddtoList(ls,47,"- ","","","");
+    AddtoList(ls,48,"- ","","","");
+    AddtoList(ls,49,"- ","","","");
+    AddtoList(ls,50,"- ","","","");
+    
+
+    
+
+
+
 
     displayList(ls);
 }
