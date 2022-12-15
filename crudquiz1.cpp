@@ -85,5 +85,7 @@ void createQuestions(){
 
 int main(){
     createQuestions();
+    cout<<"hello";
     return 0;
+
 }
