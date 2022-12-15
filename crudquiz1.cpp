@@ -73,11 +73,33 @@ void displayList(List *ls) {
 void createQuestions(){
     List* ls;
     ls = createEmptyList();
-    AddtoList(ls, 1 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 1 ,"- Cambodia academy of digital technology is located in :"," a: Prek Leap "," b: Wat Phnom "," c: Jomkadoung");
+    AddtoList(ls, 2 ,"- What is the boiling point of water?"," a: 120 celcius"," b: 100 celcius "," c: 95 celcius ");
+    AddtoList(ls, 3, "- The coldest continent in the world is.","a: Antarctica","b: Greenland","c: Alaska");
+    AddtoList(ls,4,"- Techo scholarship provides monthly pay for the scholarship student, how much does each student receive for generation 8? ","a: 70$","b : 80$","c: 90$");
+    AddtoList(ls,5,"- What is the name of CADT before it was changed? ","a: NIPTICT","b : ITC","c: NPIC");
+    AddtoList(ls,6,"- What is the national flower of cambodia?","a: Lotus","b : Wild lilly","c: Romdoul");
+    AddtoList(ls,7,"- Which city host the 2002 olympic?","a: Beijing","b: Sydney","c: Tokyo");//it's sydney
+    AddtoList(ls,8,"-  Where was tea invented?","a: England","b: USA","c: China");
+    AddtoList(ls,9,"- What language does the Cambodian speak?","a: Cambodese","b: Khmer","c: Khmeir");
+    AddtoList(ls,10,"- What year was the first computer virus created in?","a: 1993","b: 1965","c: 1986");//1986
+    AddtoList(ls,11,"- One megabyte is equal to how many bytes?","a: 1000 byte","b: 1000000 byte","c: 1048576 bytes");//c
+    AddtoList(ls,12,"- Apple was created in which country?","a: America","b: China" ,"c: Korea");
+    AddtoList(ls,13,"- Which is the correct syntax to output “hello world” in c++?","a: system.out.println(“Hello world”);","b: print(“hello world”);","c: cout<<”hello world”;");
+    AddtoList(ls,14,"- How do you insert COMMENTs in C++ code?","a: # this is a comment","b: // this is  comment","c: - - this is a comment.");
+    AddtoList(ls,15,"-  How do you create a function in c++?","a: Functionname{}","b: Functionname[]","c: Functionname()");
+    AddtoList(ls,16,"- Which operator is used to add together two values?","a: The + sign ","b: The & sign","c: The * sign");
+    AddtoList(ls,17,"-  Which header file lets us work with input and output objects?","a: #include <iostream>","b: #include <inputstr>","c: #include <stream>");
+    AddtoList(ls,18,"-  Which method can be used to find the highest value of x and y?","a: largest(x,y)","b: maximum(x,y)","c: max(x,y)  ");//max
+    AddtoList(ls,19,"- Which operator is used to multiply numbers?","a: %","b: /","c: *");//c
+    AddtoList(ls,20,"- What does HTML stand for?","a: Hyperlinks and Text Markup Language","b: Hyper Text Markup Language ","c: Home Tool Markup Language");
+    AddtoList(ls,21,"- Choose the correct HTML element for the largest heading:","a: <h1>","b: <h6>","c: <heading>");
+    AddtoList(ls,22,"- What is the most common operation system across all devices? (tablet, phone, laptop)?","a: ios ","b:  Google android os","c: Htl");
+    AddtoList(ls,23,"- One byte is equal to how many bits?","a: 5 bits","b: 7 bits","c: 8 bits");//c
+    AddtoList(ls,24,"- How can you create a variable with the numeric value 5?","a: num = 5;","b: num = 5 int;","c: ");
 
     displayList(ls);
 }
-
 int main(){
     createQuestions();
     return 0;
