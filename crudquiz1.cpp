@@ -11,6 +11,7 @@ struct Element {
             string a3;
         }a;
         double point;
+        char answer;
     } q;
     Element *next, *previous;
 };
@@ -40,46 +41,44 @@ void AddtoList(List *ls, int questionID, string questionName, string a1,string a
     e->q.a.a1= a1;
     e->q.a.a2= a2;
     e->q.a.a3= a3;
-
+    e->next = ls->head;
+    e->previous= NULL;
     if (ls->n==0) {
-        e->next=NULL;
+        // e->next=NULL;
         ls->head=e;
         ls->tail=e;
-        ls->n++;
     } else if (ls->n!=0) {
-        ls->tail->next=e;
-        ls->tail=e;
-        ls->n++;
+        ls->head->previous = e;
+        ls->head=e;
+
     }
+    ls->n++;
 }
 
 void displayList(List *ls) {
     Element *tmp;
-
-    tmp = ls->head;
-
+    tmp = ls->tail;
     while (tmp!=NULL) {
         cout<<tmp->q.questionName<<endl;
         cout<<tmp->q.a.a1<<endl;
         cout<<tmp->q.a.a2<<endl;
         cout<<tmp->q.a.a3<<endl;
-        tmp = tmp->next;
+        cout<<">>>>> Input answer: ";
+        cin>>tmp->q.answer;
+        cout<<tmp->q.answer<<endl;
+        tmp = tmp->previous;
     }
 }
 
-void deleteQuestion(List *ls, int index){
-    Element *
-}
-
 void createQuestions(){
- List* ls;
+    List* ls;
     ls = createEmptyList();
-    AddtoList(ls, 1 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 2 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 3 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 4 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
-    AddtoList(ls, 5 ,"question :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 1 ,"question1 :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 2 ,"question2:"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 3 ,"question3 :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 4 ,"question4 :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 5 ,"question5 :"," answer1: "," answer2: "," answer3: ");
+    AddtoList(ls, 5 ,"question6 :"," answer1: "," answer2: "," answer3: ");
     displayList(ls);
 }
 
