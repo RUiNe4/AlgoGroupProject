@@ -56,6 +56,29 @@ void AddtoList(List *ls, int questionID, string questionName, string a1,string a
     ls->n++;
 }
 
+bool checkQuestionsID(List *ls, int id){
+    
+    Element *temp;
+    bool found = false ;
+    
+    temp = ls->head;
+
+    while (temp!=NULL) {
+        if (temp->q.questionID =id) {
+            
+           cout<<"\nThis question already existed!\n\n";
+           cout<<temp->q.questionID;
+            found=true;
+            break;
+        } else {
+            temp = temp->next;
+            found= false;
+        }
+    }
+    return found;
+}
+
+
 void displayList(List *ls) {
     Element *tmp;
     tmp = ls->tail;
