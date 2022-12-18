@@ -7,19 +7,20 @@ using namespace std;
 //Global variable
 int input;
 
+string inputAns;
+
 struct Element {
   struct question {
     string questionName;
     string questionID;
     int questionIndex;
+    string correctAns;
     struct answer {
       string a1;
       string a2;
       string a3;
-      string correctAns;
     } a;
-    double point;
-    char answer;
+    int point;
   } q;
   Element *next, *previous;
 };
@@ -75,6 +76,7 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
   e->q.a.a1 = a1;
   e->q.a.a2 = a2;
   e->q.a.a3 = a3;
+  e->q.correctAns = correctAns;
   e->next = ls->head;
   e->previous = NULL;
   if (ls->n == 0) {
@@ -270,7 +272,7 @@ void adminOpt(List *ls){
       break;
       case 2:
         //Display q
-        displayQuestion(ls);
+        // displayQuestion(ls);
       break;
       case 3:
         //Remove q
@@ -297,4 +299,23 @@ void adminOpt(List *ls){
       break;
     }
   }
+}
+
+int finalPoint;
+
+void takeTest(List *ls){
+  Element *tmp = ls->head;
+  finalPoint = 0;
+  while(tmp!=NULL){
+    cout<<tmp->q.questionName<<endl;
+    cout<<"a. "<<tmp->q.a.a1<<endl;
+    cout<<"b. "<<tmp->q.a.a2<<endl;
+    cout<<"c. "<<tmp->q.a.a3<<endl;
+    cout<<"Enter answer: ";  getline(cin,inputAns);
+    if(inputAns == tmp->q.correctAns){
+      finalPoint += 3;
+    }
+    tmp = tmp->next;
+  }
+  cout<<"Your final point is: "<<finalPoint;
 }
