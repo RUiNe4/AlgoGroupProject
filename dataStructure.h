@@ -1,7 +1,11 @@
 #include "header.h"
 #include "general.h"
+#include "menu.h"
 // #include <curses.h>
 using namespace std;
+
+//Global variable
+int input;
 
 struct Element {
   struct question {
@@ -35,6 +39,8 @@ List *createEmptyList() {
 
   return ls;
 }
+
+
 
 bool checkQuestionsID(List *ls, int id) {
 
@@ -82,20 +88,23 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
   ls->n++;
 }
 
-void addMoreQ(List *ls){
+void addMoreQ(List *ls, int numQ){
   // need to write to file
   Element *tmp;
   tmp = ls->head;
-  cout<<"Enter question index: ";
-  cin>>tmp->q.questionIndex;
-  inputString("Enter q name: ", &tmp->q.questionName);
-  inputString("Enter q ID: ", &tmp->q.questionID);
-  inputString("Enter q a1: ", &tmp->q.a.a1);
-  inputString("Enter q a2: ", &tmp->q.a.a2);
-  inputString("Enter q a3: ", &tmp->q.a.a3);
-  inputString("Enter q Correct Answer: ", &tmp->q.a.correctAns);
+
+  for(int i=0;i<numQ;i++){
+    cout<<"Enter question index: ";
+    cin>>tmp->q.questionIndex;
+    inputString("Enter q name: ", &tmp->q.questionName);
+    inputString("Enter q ID: ", &tmp->q.questionID);
+    inputString("Enter q a1: ", &tmp->q.a.a1);
+    inputString("Enter q a2: ", &tmp->q.a.a2);
+    inputString("Enter q a3: ", &tmp->q.a.a3);
 //   AddQuestion(ls, tmp->q.questionID, tmp->q.questionIndex, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2
 // ,tmp->q.a.a3);
+  }
+  cout<<"Successfully added "<<numQ<<" question(s)"<<endl;
 }
 
 void displayQuestion(List *ls) {
@@ -103,41 +112,11 @@ void displayQuestion(List *ls) {
   tmp = ls->tail;
   while (tmp != NULL) {
     // system("clear");
-    cout << "- " << tmp->q.questionName << endl;
+    cout << tmp->q.questionIndex << "- " << tmp->q.questionName << endl;
     cout << "a. " << tmp->q.a.a1 << endl;
     cout << "b. " << tmp->q.a.a2 << endl;
     cout << "c. " << tmp->q.a.a3 << endl;
     tmp = tmp->previous;
-  // cout << ">>>>> Input answer (0 - to previous), (1 - skip): ";
-  //   cin >> tmp->q.answer;
-  //   switch (tmp->q.answer) {
-  //   case 'a':
-  //     cout << tmp->q.answer;
-  //     tmp = tmp->previous;
-  //     break;
-  //   case 'b':
-  //     cout << tmp->q.answer;
-  //     tmp = tmp->previous;
-  //     break;
-  //   case 'c':
-  //     cout << tmp->q.answer;
-  //     tmp = tmp->previous;
-  //     break;
-  //   case '0':
-  //     if (tmp == NULL) {
-  //       cout << "Cannot go to previous question";
-  //     } else {
-  //       tmp = tmp->next;
-  //     }
-  //     break;
-  //   case '1':
-  //     if (tmp == NULL) {
-  //       cout << "No more next";
-  //     } else {
-  //       tmp = tmp->previous;
-  //     }
-  //     break;
-  //   }
   }
 }
 
@@ -209,7 +188,6 @@ void CSQuestion(){
   AddQuestion(ls, "46" ,46, "The quality of the display is better if _____",
               "Resolution is least", "Resolution the moderate",
               "Resolution is higher","c");
-       addMoreQ(ls);
   
   displayQuestion(ls);       
 
@@ -217,9 +195,7 @@ void CSQuestion(){
 
 
 
-void createQuestions() {
-  List *ls;
-  ls = createEmptyList();
+void createQuestions(List *ls) {
   AddQuestion(ls, "1" ,1, "Cambodia academy of digital technology is located in :",
               "Prek Leap ", "Wat Phnom ", "Jomkadoung","a");
   AddQuestion(ls, "2" ,2, "What is the boiling point of water?", " 120 celcius",
@@ -273,7 +249,52 @@ void createQuestions() {
   AddQuestion(ls, "50" ,50, "What is the highest mountain in the world?",
               "Mount Kanchenjunga", "Mount K2", "Mount Everest","c");
 
-  addMoreQ(ls);
+  // for(int i=0;i<numQ;i++){
+  //   addMoreQ(ls, numQ);
+  // }
   
-  displayQuestion(ls);
+  // displayQuestion(ls);
+}
+
+void adminOpt(List *ls){
+  Menu:
+  adminMenu();
+  cin>>input;
+  if(input){
+    switch (input)
+    {
+      case 1:
+      cout<<"How many questions do you want to add? "; cin>>input;
+      addMoreQ(ls, input);
+      goto Menu;
+      break;
+      case 2:
+        //Display q
+        displayQuestion(ls);
+      break;
+      case 3:
+        //Remove q
+        cout<<"WIP"<<endl;
+      break;
+      case 4:
+        //Edit q
+        cout<<"WIP"<<endl;
+      break;
+      case 5:
+        // View Test take login info
+        cout<<"WIP"<<endl;
+      break;
+      case 6:
+        //View Test Taker history
+        cout<<"WIP"<<endl;
+      break;
+      case 7:
+        // Exit
+        cout<<"WIP"<<endl;
+      break;
+      default:
+        cout<<"Invalid option"<<endl;
+      break;
+    }
+  }
 }

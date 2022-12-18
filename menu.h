@@ -21,9 +21,11 @@ void loginMenu(){
 }
 
 void adminMenu(){
-  cout<<"Add questions"<<endl;
-  cout<<"Remove questions"<<endl;
-  cout<<"Edit questions"<<endl;
-  cout<<"View Test take login info"<<endl;
-  cout<<"View Test Taker history"<<endl;
+  cout<<"1. Add questions"<<endl;
+  cout<<"2. Display Current question"<<endl;
+  cout<<"3. Remove questions"<<endl;
+  cout<<"4. Edit questions"<<endl;
+  cout<<"5. View Test take login info"<<endl;
+  cout<<"6. View Test Taker history"<<endl;
+  cout<<"7. Exit"<<endl;
 }
