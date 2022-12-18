@@ -29,3 +29,4 @@ void adminMenu(){
   cout<<"6. View Test Taker history"<<endl;
   cout<<"7. Exit"<<endl;
 }
+
