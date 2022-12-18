@@ -33,6 +33,10 @@ List *createEmptyList() {
     return ls;
 }
 
+void deleteQuestions(List *ls, int questionID){
+    delete(questionID);
+}
+
 void AddtoList(List *ls, int questionID, string questionName, string a1,string a2, string a3) {
     Element *e;
     e = new Element;
@@ -48,13 +52,16 @@ void AddtoList(List *ls, int questionID, string questionName, string a1,string a
         // e->next=NULL;
         ls->head=e;
         ls->tail=e;
-    } else if (ls->n!=0) {
+    } else if (ls-'
+    '>n!=0) {
         ls->head->previous = e;
         ls->head=e;
 
     }
     ls->n++;
 }
+
+
 
 bool checkQuestionsID(List *ls, int id){
     
@@ -67,7 +74,7 @@ bool checkQuestionsID(List *ls, int id){
         if (temp->q.questionID =id) {
             
            cout<<"\nThis question already existed!\n\n";
-           cout<<temp->q.questionID;
+           cout<<temp->createQuestion();
             found=true;
             break;
         } else {
@@ -175,14 +182,13 @@ void createQuestions(){
     AddtoList(ls,50,"What is the highest mountain in the world?","Mount Kanchenjunga","Mount K2","Mount Everest");
     
 
-    
-
-
-
 
     displayList(ls);
 }
 int main(){
+    List *ls;
+    
     createQuestions();
+   // checkQuestionID(ls, 13);
     return 0;
 }
