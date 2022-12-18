@@ -12,6 +12,7 @@ struct Element {
       string a1;
       string a2;
       string a3;
+      string correctAns;
     } a;
     double point;
     char answer;
@@ -58,7 +59,7 @@ bool checkQuestionsID(List *ls, int id) {
 }
 
 void AddQuestion(List *ls, string questionID, int questionIndex, string questionName, string a1,
-                 string a2, string a3) {
+                 string a2, string a3,string correctAns) {
   Element *e;
   e = new Element;
   e->q.questionID = questionID;
@@ -91,6 +92,7 @@ void addMoreQ(List *ls){
   inputString("Enter q a1: ", &tmp->q.a.a1);
   inputString("Enter q a2: ", &tmp->q.a.a2);
   inputString("Enter q a3: ", &tmp->q.a.a3);
+  inputString("Enter q Correct Answer: ", &tmp->q.a.correctAns);
 //   AddQuestion(ls, tmp->q.questionID, tmp->q.questionIndex, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2
 // ,tmp->q.a.a3);
 }
@@ -141,28 +143,28 @@ void displayQuestion(List *ls) {
 void createQuestions() {
   List *ls;
   ls = createEmptyList();
-  AddQuestion(ls, "" ,1, "Cambodia academy of digital technology is located in :",
-              "Prek Leap ", "Wat Phnom ", "Jomkadoung");
-  AddQuestion(ls, "" ,2, "What is the boiling point of water?", " 120 celcius",
-              " 100 celcius ", " 95 celcius ");
-  AddQuestion(ls, "" ,3, "The coldest continent in the world is.", "Antarctica",
-              "Greenland", "Alaska");
-  AddQuestion(ls, "" ,4,
+  AddQuestion(ls, "1" ,1, "Cambodia academy of digital technology is located in :",
+              "Prek Leap ", "Wat Phnom ", "Jomkadoung","a");
+  AddQuestion(ls, "2" ,2, "What is the boiling point of water?", " 120 celcius",
+              " 100 celcius ", " 95 celcius ","b");
+  AddQuestion(ls, "3" ,3, "The coldest continent in the world is.", "Antarctica",
+              "Greenland", "Alaska","a");
+  AddQuestion(ls, "4" ,4,
               "Techo scholarship provides monthly pay for the scholarship "
               "student, how much does each student receive for generation 8? ",
-              "70$", "b : 80$", "90$");
-  AddQuestion(ls, "" ,5, "What is the name of CADT before it was changed? ",
-              "NIPTICT", "b : ITC", "NPIC");
-  AddQuestion(ls, "" ,6, "What is the national flower of cambodia?", "Lotus",
-              "Wild lilly", "Romdoul");
-  AddQuestion(ls, "" ,7, "Which city host the 2002 olympic?", "Beijing", "Sydney",
-              "Tokyo"); // it's sydney
-  AddQuestion(ls, "" ,8, " Where was tea invented?", "England", "USA", "China");
-  AddQuestion(ls, "" ,9, "What language does the Cambodian speak?", "Cambodese",
-              "Khmer", "Khmeir");
-  AddQuestion(ls, "" ,10, "What year was the first computer virus created in?",
-              "1993", "1965", "1986"); // 1986
-  AddQuestion(ls, "" ,11, "One megabyte is equal to how many bytes?", "1000 byte",
+              "70$", " 80$", "90$","b");
+  AddQuestion(ls, "5" ,5, "What is the name of CADT before it was changed? ",
+              "NIPTICT", " ITC", "NPIC","a");
+  AddQuestion(ls, "6" ,6, "What is the national flower of cambodia?", "Lotus",
+              "Wild lilly", "Romdoul","c");
+  AddQuestion(ls, "7" ,7, "Which city host the 2002 olympic?", "Beijing", "Sydney",
+              "Tokyo","b"); // it's sydney
+  AddQuestion(ls, "8" ,8, " Where was tea invented?", "England", "USA", "China","c");
+  AddQuestion(ls, "9" ,9, "What language does the Cambodian speak?", "Cambodese",
+              "Khmer", "Khmeir","b");
+  AddQuestion(ls, "10" ,10, "What year was the first computer virus created in?",
+              "1993", "1965", "1986","c"); // 1986
+  AddQuestion(ls, "11" ,11, "One megabyte is equal to how many bytes?", "1000 byte",
               "1000000 byte", "1048576 bytes"); // c
   AddQuestion(ls, "" ,12, "Apple was created in which country?", "America", "China",
               "Korea");
