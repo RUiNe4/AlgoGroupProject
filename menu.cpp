@@ -1,4 +1,4 @@
-#include "dataStructure.h"
+#include "header.h"
 using namespace std;
 
 void mainMenu(){
