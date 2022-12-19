@@ -21,7 +21,7 @@ int main(){
     break;
     case 3:
     //Login student
-    cout<<"WIP"<<endl;
+    studentOpt(mainList);
     break;
     case 4:
     cout<<"WIP"<<endl;

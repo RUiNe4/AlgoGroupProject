@@ -21,7 +21,6 @@ struct Element {
       string a2;
       string a3;
     } a;
-    int point;
   } q;
   Element *next, *previous;
 };
@@ -302,21 +301,56 @@ void adminOpt(List *ls){
   }
 }
 
-int finalPoint;
+int finalScore;
 
 void takeTest(List *ls){
   Element *tmp = ls->head;
-  finalPoint = 0;
+  finalScore = 0;
   while(tmp!=NULL){
+    for (int i = 0 ;i<10;i++){
+    system("cls");
+    Top:
     cout<<tmp->q.questionName<<endl;
     cout<<"a. "<<tmp->q.a.a1<<endl;
     cout<<"b. "<<tmp->q.a.a2<<endl;
     cout<<"c. "<<tmp->q.a.a3<<endl;
-    cout<<"Enter answer: ";  getline(cin,inputAns);
-    if(inputAns == tmp->q.correctAns){
-      finalPoint += 3;
+    cout<<"Enter answer: ";  
+    fflush(stdin);
+    getline(cin,inputAns);
+    if(inputAns == "a" || inputAns == "b" || inputAns == "c"){
+      if (inputAns == tmp->q.correctAns){
+        finalScore += 3;
+      }else{
+        // finalScore -= 1;
+      }
+      cout<<endl;
+    }else{
+      cout<<"Invalid Input, please enter again"<<endl;
+      cout<<" -----------------------------";
+      getch();
+      goto Top;
     }
     tmp = tmp->next;
+    }
+    break;
   }
-  cout<<"Your final point is: "<<finalPoint;
+  cout<<"Your final point is: "<<finalScore;
+  cout<<" -----------------------------";
+  getch();
+}
+
+void studentOpt(List *ls){
+  Menu:
+  system("cls");
+  studentMenu();
+  cin>>input;
+  switch (input)
+  {
+  case 1:
+    system("cls");
+    takeTest(ls);
+    goto Menu;
+  default:
+    break;
+  }
 }

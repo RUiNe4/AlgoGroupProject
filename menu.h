@@ -30,3 +30,10 @@ void adminMenu(){
   cout<<"7. Exit"<<endl;
 }
 
+
+void studentMenu(){
+  cout<<"1. Take test"<<endl;
+  cout<<"2. Display Result"<<endl;
+  cout<<"3. Exit"<<endl;
+  cout<<"Please select an option: ";
+}
