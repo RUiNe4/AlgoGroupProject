@@ -27,6 +27,22 @@ struct Node{
   Node *next;
 };
 
+struct loginList {
+  int n;
+  Node *head, *tail;
+};
+
+loginList *createEmptyLoginList() {
+  loginList *ls;
+  ls = new loginList;
+
+  ls->n = 0;
+  ls->head = NULL;
+  ls->tail = NULL;
+
+  return ls;
+}
+
 struct Element {
   struct question {
     string questionName;

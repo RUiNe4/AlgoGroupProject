@@ -3,9 +3,9 @@ using namespace std;
 //structur
 string dataOneRow;
 
-void insert(List* ls,string fname,string lname,string email ,string password){
+void insert(loginList* ls,string fname,string lname,string email ,string password){
 	Node *e;
-	e=new Node();
+	e = new Node;
 	e->l.email=email;
 	e->l.fname=fname;
 	e->l.lname=lname;
@@ -74,7 +74,7 @@ void Login(){
         cout<<"Incorrect Password"<<endl;
     }
 }
-void displayLoginInfo(List* ls){
+void displayLoginInfo(loginList* ls){
 	Node *tm;
 	tm=ls->head;
 	while(tm!=NULL){
@@ -85,12 +85,12 @@ void displayLoginInfo(List* ls){
 	}
 }
 
-void writeNameEmail(List* ls){
-	Element *tem;
-	Element *te;
+void writeNameEmail(loginList* ls){
+	Node *tem;
+	Node *te;
 	string t;
-	tem=new Element();
-	te=new Element();
+	tem=new Node;
+	te=new Node;
 	tem=ls->head;
 	te=tem->next;
 	fstream file;
@@ -113,8 +113,8 @@ void writeNameEmail(List* ls){
 		}
     file.close();
 }
-void writeEmail(List *ls){
-	Element *te;
+void writeEmail(loginList *ls){
+	Node *te;
 	te=ls->head;
 	fstream emailf;
 	emailf.open("email.txt",ios::app);
@@ -126,8 +126,8 @@ void writeEmail(List *ls){
     emailf.close();
 
 }
-void writePass(List *ls){
-	Element *te;
+void writePass(loginList *ls){
+	Node *te;
 	te=ls->head;
 	fstream passf;
 	passf.open("password.txt",ios::app);
@@ -153,7 +153,7 @@ void writePass(List *ls){
 //     }else if(checkExistEmailInFile(email)==1){
 //         cout<<"not"<<endl;
 
-//         insert(l,fname,lname,email,password);
+        // insert(l,fname,lname,email,password);
 //     }
 //    }else if(opt==2){
 //         Login();

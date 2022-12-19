@@ -1,7 +1,7 @@
 #include "login.h"
 using namespace std;
 
-void home(List *mainList){
+void home(List *mainList, loginList *loginList){
   mainMenu();
   cout<<"Enter your choice >>>>> "; cin>>input;
   switch(input){
@@ -16,15 +16,18 @@ void home(List *mainList){
         cout<<"User already exist"<<endl;
     }else if(checkExistEmailInFile(email)==1){
         cout<<"You have successfully registered"<<endl;
-        insert(mainList,fname,lname,email,password);
+        insert(loginList,fname,lname,email,password);
+        writeNameEmail(loginList);
+        writeEmail(loginList);
+        writePass(loginList);
     }
-    home(mainList);
+    home(mainList, loginList);
     //Sign up 
     break;
     case 3:
     //Login student
-    studentOpt(mainList);
     Login();
+    studentOpt(mainList);
     // cout<<"WIP"<<endl;
     break;
     case 4:
@@ -42,7 +45,11 @@ void home(List *mainList){
 int main(){
   List *mainList;
   mainList = createEmptyList();
+  
+  loginList *loginList;
+  loginList = createEmptyLoginList();
+  
   createQuestions(mainList);
-  home(mainList);
+  home(mainList, loginList);
   return 0;
 }
