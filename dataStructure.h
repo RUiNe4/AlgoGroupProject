@@ -96,23 +96,39 @@ bool checkQuestionsID(List *ls, int id) {
 }
 
 void deleteQuestion(List *ls){
-  string ip;
   bool remove = false;
   Element *e; 
-  
-  e = ls->head;
-  ls->head = ls->head->previous;
-  cout<<e->q.questionName;
-  cout<<"What question do you want to remove? >>>>>"; cin>>ip;
-  while(e!=NULL){
-  if(e->q.questionID == ip){
-    remove = true;
+
+  cout<<"What question do you want to remove? >>>>>"; cin>>inputInt;
+  if(ls->n == 1 && ls->head != NULL){
+    cout << e->q.questionIndex << " . " << e->q.questionName << endl;
+    cout << "a. " << e->q.a.a1 << endl;
+    cout << "b. " << e->q.a.a2 << endl;
+    cout << "c. " << e->q.a.a3 << endl;
+    e = ls->head;
+    ls->head = ls->head->next;
     delete e;
+    if(e != NULL){
+      ls->head->previous = NULL;
+    }
+  } else{
+      Element *tmp;
+      tmp = ls->head;
+      for(int i=1;i<inputInt-1;i++){
+        if(tmp!=NULL){
+          tmp = tmp->next;
+        }
+      }
+  if(tmp != NULL && tmp->next != NULL){
+    e = tmp->next;
+    tmp->next = tmp->next->next;
+    if(tmp->next->next != NULL)
+      tmp->next->next->previous = tmp->next;
+    delete e;
+  }else{
+    cout<<"Nothing to delete"<<endl;
   }
-  e = e->next;
   }
-  if(remove)
-  ls->n = ls->n - 1;
 }
 
 void AddQuestion(List *ls, string questionID, int questionIndex, string questionName, string a1,
@@ -126,13 +142,15 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
   e->q.a.a2 = a2;
   e->q.a.a3 = a3;
   e->q.correctAns = correctAns;
-  e->next = ls->head;
-  e->previous = NULL;
+
   if (ls->n == 0) {
-    // e->next=NULL;
+  e->next = NULL;
+  e->previous = NULL;
     ls->head = e;
     ls->tail = e;
   } else if (ls->n != 0) {
+    e->next = ls->head; 
+    e->previous = NULL;
     ls->head->previous = e;
     ls->head = e;
   }
@@ -167,14 +185,14 @@ void addMoreQ(List *ls){
 
 void displayQuestion(List *ls) {
   Element *tmp;
-  tmp = ls->tail;
+  tmp = ls->head;
   while (tmp != NULL) {
     // system("clear");
-    cout << tmp->q.questionIndex << "- " << tmp->q.questionName << endl;
+    cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
     cout << "a. " << tmp->q.a.a1 << endl;
     cout << "b. " << tmp->q.a.a2 << endl;
     cout << "c. " << tmp->q.a.a3 << endl;
-    tmp = tmp->previous;
+    tmp = tmp->next;
   }
 }
 
@@ -244,9 +262,6 @@ void CSQuestion(List *ls){
   AddQuestion(ls, "46" ,46, "The quality of the display is better if _____",
               "Resolution is least", "Resolution the moderate",
               "Resolution is higher","c");
-  
-  // displayQuestion(ls);       
-
 }
 
 void tmpQuestion(List *ls){
@@ -270,43 +285,43 @@ void tmpQuestion(List *ls){
   AddQuestion(ls, "9" ,9, "What language does the Cambodian speak?", "Cambodese",
               "Khmer", "Khmeir","b");
  
-  AddQuestion(ls, "29" ,29, "What is the largest organ in the human body?", "Skin",
-              "Muscle", "The veins","a");
-  AddQuestion(ls, "30" ,30, "Which planet is known as the red planet?", "Venus",
-              "Mercury", "mars","c");
-  AddQuestion(ls, "31" ,31, "How many continents are there in the world?", "6", "7",
-              "8","b");
-  AddQuestion(ls, "32" ,32, "The periodic table has how many elements?", "90", "110",
-              "118","c");
-  AddQuestion(ls, "33" ,33, "How many are there in a dozen?", "4", "10", "12","c");
-  AddQuestion(ls, "34" ,34, "The ocean covers how much of the earth's surface?",
-              "75%", "70%", "80%","b");
-  AddQuestion(ls, "35" ,35, "What is the largest religious structure in the world?",
-              "Angkor wat", "Vishnu statue", "Mangal mahadev","a");
-  AddQuestion(ls, "36" ,36, "Which living mammal cannot jump?", "Elephant", "Giraffe",
-              "Pig","a");
-  AddQuestion(ls, "37" ,37, "What is the population of Cambodia in 2022?",
-              "15 millions", "16 millions", "17 millions","c");
-  AddQuestion(ls, "38" ,38, "Who is the Prime Minister of Cambodia?", "Hun Sen",
-              "Elon Musk", "Pov SomNoun","a");
-  AddQuestion(ls, "39" ,39, "Cadt is an academy specialized in :", "Digital major ",
-              "Cooking major", "Agriculture major","a");
-  AddQuestion(ls, "40" ,40, "What is the smallest country among the ASEAN country?",
-              "Singapore", "Brunei", "Malaysia","b");
+  // AddQuestion(ls, "29" ,29, "What is the largest organ in the human body?", "Skin",
+  //             "Muscle", "The veins","a");
+  // AddQuestion(ls, "30" ,30, "Which planet is known as the red planet?", "Venus",
+  //             "Mercury", "mars","c");
+  // AddQuestion(ls, "31" ,31, "How many continents are there in the world?", "6", "7",
+  //             "8","b");
+  // AddQuestion(ls, "32" ,32, "The periodic table has how many elements?", "90", "110",
+  //             "118","c");
+  // AddQuestion(ls, "33" ,33, "How many are there in a dozen?", "4", "10", "12","c");
+  // AddQuestion(ls, "34" ,34, "The ocean covers how much of the earth's surface?",
+  //             "75%", "70%", "80%","b");
+  // AddQuestion(ls, "35" ,35, "What is the largest religious structure in the world?",
+  //             "Angkor wat", "Vishnu statue", "Mangal mahadev","a");
+  // AddQuestion(ls, "36" ,36, "Which living mammal cannot jump?", "Elephant", "Giraffe",
+  //             "Pig","a");
+  // AddQuestion(ls, "37" ,37, "What is the population of Cambodia in 2022?",
+  //             "15 millions", "16 millions", "17 millions","c");
+  // AddQuestion(ls, "38" ,38, "Who is the Prime Minister of Cambodia?", "Hun Sen",
+  //             "Elon Musk", "Pov SomNoun","a");
+  // AddQuestion(ls, "39" ,39, "Cadt is an academy specialized in :", "Digital major ",
+  //             "Cooking major", "Agriculture major","a");
+  // AddQuestion(ls, "40" ,40, "What is the smallest country among the ASEAN country?",
+  //             "Singapore", "Brunei", "Malaysia","b");
   
-  AddQuestion(ls, "47" ,47, "What is the largest planet in  the solar system?",
-              "Jupiter", "Saturn", "Neptune","a");
-  AddQuestion(ls, "48" ,48, "Which country won the fifa world cup 2018?", "Croatia",
-              "France", "Brazil","a");
-  AddQuestion(ls, "49" ,49, " What is the longest river in the world?",
-              "The nile river", "The yangtze river", "The amazon river","a");
-  AddQuestion(ls, "50" ,50, "What is the highest mountain in the world?",
-              "Mount Kanchenjunga", "Mount K2", "Mount Everest","c");
+  // AddQuestion(ls, "47" ,47, "What is the largest planet in  the solar system?",
+  //             "Jupiter", "Saturn", "Neptune","a");
+  // AddQuestion(ls, "48" ,48, "Which country won the fifa world cup 2018?", "Croatia",
+  //             "France", "Brazil","a");
+  // AddQuestion(ls, "49" ,49, " What is the longest river in the world?",
+  //             "The nile river", "The yangtze river", "The amazon river","a");
+  // AddQuestion(ls, "50" ,50, "What is the highest mountain in the world?",
+  //             "Mount Kanchenjunga", "Mount K2", "Mount Everest","c");
 }
 
 void createQuestions(List *ls) {
   tmpQuestion(ls);
-  CSQuestion(ls);
+  // CSQuestion(ls);
   // for(int i=0;i<numQ;i++){
   //   addMoreQ(ls, numQ);
   // }
