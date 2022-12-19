@@ -43,6 +43,7 @@ void home(List *mainList, loginList *loginList){
 
 // int input;
 int main(){
+  Element *tmp;
   List *mainList;
   mainList = createEmptyList();
   
