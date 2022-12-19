@@ -88,7 +88,7 @@ List *createEmptyList() {
   return ls;
 }
 
-Element *checkQuestionsID(List *ls, string id) {
+Element *findQuestionPos(List *ls, string id) {
 
   Element *temp;
   temp = ls->head;
@@ -103,6 +103,18 @@ Element *checkQuestionsID(List *ls, string id) {
   return NULL;
 }
 
+bool checkQuestionID(List *ls, string questionID, bool found){
+  Element *tmp;
+  tmp = ls->head;
+  while(tmp != NULL){
+    if(tmp->q.questionID == questionID){
+      found = true;
+      return found;
+    }
+    tmp = tmp->next;
+  }
+  return found;
+}
 
 void AddQuestion(List *ls, string questionID, int questionIndex, string questionName, string a1,
                  string a2, string a3,string correctAns) {
@@ -132,28 +144,37 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
 
 void addMoreQ(List *ls){
   // need to write to file
-  int count = 0;
-  
-  while(true){
-    cout<<"Enter question index: "; cin>>q.questionIndex;
-    inputString("Enter q name: ", &q.questionName);
+  bool found = false;
+  int count = 1;
+  while(1){
     inputString("Enter q ID: ", &q.questionID);
-    inputString("Enter q a1: ", &q.a.a1);
-    inputString("Enter q a2: ", &q.a.a2);
-    inputString("Enter q a3: ", &q.a.a3);
-    inputString("Enter the correct answer: ", &q.correctAns);
+    if(checkQuestionID(ls, q.questionID, found)){
+      cout<<"Id already exists"<<endl;
+      cout<<"Please try again"<<endl;
+      addMoreQ(ls);
+    }else{
+      cout<<"Enter question index: "; cin>>q.questionIndex;
+      inputString("Enter q name: ", &q.questionName);
+      inputString("Enter q a1: ", &q.a.a1);
+      inputString("Enter q a2: ", &q.a.a2);
+      inputString("Enter q a3: ", &q.a.a3);
+      inputString("Enter the correct answer: ", &q.correctAns);
+    }
     AddQuestion(ls, q.questionID, q.questionIndex, q.questionName,
      q.a.a1, q.a.a2, q.a.a3, q.correctAns);
     cout<<"<<< Successfully added the question to the list >>>"<<endl;
     count++;
     cout<<"Add more (1 - Continue), (0 - Finish)? >>>>> "; cin>>inputInt;
     if(inputInt == 0){
-      cout<<"<<< You have add "<<count<<" question(s) to the list >>>"<<endl;
+      cout<<"<<< You have added "<<count<<" question(s) to the list >>>"<<endl;
+      cout<<"Press any key to continue";
+      _getch();
       break;
     }
     else if(inputInt == 1){
       addMoreQ(ls);
     }
+    break;
   }
 }
 
@@ -193,7 +214,7 @@ void deleteQuestion(List *ls){
     }
   }
   cout<<"What question do you want to remove? >>>>> "; cin>>inputStr;
-    e = checkQuestionsID(ls, inputStr);
+    e = findQuestionPos(ls, inputStr);
     //no id
     if(e == NULL){
       cout<<"The question ID: "<<inputStr<<" doesn't seem to exist (1 - Continue), (0 - Menu) >>>>> "; cin>>inputInt;
