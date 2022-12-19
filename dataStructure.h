@@ -153,10 +153,10 @@ void addMoreQ(List *ls){
     inputString("Enter q a2: ", &tmp->q.a.a2);
     inputString("Enter q a3: ", &tmp->q.a.a3);
     cout<<"<<< Successfully added the question to the list >>>"<<endl;
-    cout<<"Add more (1 - Continue), (0 - Finish)? >>>>> "; cin>>input;
-    if(input == 0)
+    cout<<"Add more (1 - Continue), (0 - Finish)? >>>>> "; cin>>inputInt;
+    if(inputInt == 0)
     break;
-    else if(input == 1){
+    else if(inputInt == 1){
       addMoreQ(ls);
     }
   }
@@ -315,9 +315,9 @@ void createQuestions(List *ls) {
 void adminOpt(List *ls){
   system("cls");
   adminMenu();
-  cout<<"Enter your choice >>>>>"; cin>>input;
-  if(input){
-    switch (input)
+  cout<<"Enter your choice >>>>>"; cin>>inputInt;
+  if(inputInt){
+    switch (inputInt)
     {
       case 1:
       system("cls");
@@ -383,9 +383,9 @@ void takeTest(List *ls){
     cout<<"c. "<<tmp->q.a.a3<<endl;
     cout<<"Enter answer: ";  
     fflush(stdin);
-    getline(cin,inputAns);
-    if(inputAns == "a" || inputAns == "b" || inputAns == "c"){
-      if (inputAns == tmp->q.correctAns){
+    getline(cin,inputStr);
+    if(inputStr == "a" || inputStr == "b" || inputStr == "c"){
+      if (inputStr == tmp->q.correctAns){
         finalScore += 3;
       }else{
         // finalScore -= 1;
@@ -410,8 +410,8 @@ void studentOpt(List *ls){
   Menu:
   system("cls");
   studentMenu();
-  cin>>input;
-  switch (input)
+  cin>>inputInt;
+  switch (inputInt)
   {
   case 1:
     system("cls");

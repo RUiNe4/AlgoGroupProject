@@ -3,8 +3,8 @@ using namespace std;
 
 void home(List *mainList, loginList *loginList){
   mainMenu();
-  cout<<"Enter your choice >>>>> "; cin>>input;
-  switch(input){
+  cout<<"Enter your choice >>>>> "; cin>>inputInt;
+  switch(inputInt){
     case 1:
     //Login admin
     system("cls");
