@@ -4,6 +4,19 @@
 // #include <curses.h>
 using namespace std;
 
+//for adding questions
+struct question {
+    string questionName;
+    string questionID;
+    int questionIndex;
+    string correctAns;
+    struct answer {
+      string a1;
+      string a2;
+      string a3;
+    } a;
+  } q;
+
 //Global Variable to sign in
 string fname;
 string lname;
@@ -78,8 +91,6 @@ List *createEmptyList() {
 Element *checkQuestionsID(List *ls, string id) {
 
   Element *temp;
-  bool found = false;
-
   temp = ls->head;
 
   while (temp != NULL) {
@@ -89,38 +100,9 @@ Element *checkQuestionsID(List *ls, string id) {
       temp = temp->next;
     }
   }
+  return NULL;
 }
 
-void deleteNode(List *ls, Element *tmp){ 
-  if(ls->head == NULL || tmp == NULL){
-    return;
-  }
-  if(ls->head == tmp){
-    ls->head = tmp->next;
-  }
-  if(tmp->next != NULL){
-    tmp->next->previous = tmp->previous;
-  }
-  if(tmp->previous != NULL){
-    tmp->previous->next = tmp->next;
-  }
-  delete tmp;
-}
-
-void deleteQuestion(List *ls){
-  bool remove = false;
-  Element *e; 
-  e = ls->head;
-  cout<<"What question do you want to remove? >>>>> "; cin>>inputStr;
-    if(ls->head == NULL){
-      return;
-    }
-    e = checkQuestionsID(ls, inputStr);
-    if(e == NULL){
-      return;
-    }
-    deleteNode(ls, e);
-}
 
 void AddQuestion(List *ls, string questionID, int questionIndex, string questionName, string a1,
                  string a2, string a3,string correctAns) {
@@ -151,28 +133,95 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
 void addMoreQ(List *ls){
   // need to write to file
   int count = 0;
-  // int i=0;
-  Element *tmp;
-  tmp = ls->head;
+  
   while(true){
-    cout<<"Enter question index: "; cin>>tmp->q.questionIndex;
-    inputString("Enter q name: ", &tmp->q.questionName);
-    inputString("Enter q ID: ", &tmp->q.questionID);
-    inputString("Enter q a1: ", &tmp->q.a.a1);
-    inputString("Enter q a2: ", &tmp->q.a.a2);
-    inputString("Enter q a3: ", &tmp->q.a.a3);
+    cout<<"Enter question index: "; cin>>q.questionIndex;
+    inputString("Enter q name: ", &q.questionName);
+    inputString("Enter q ID: ", &q.questionID);
+    inputString("Enter q a1: ", &q.a.a1);
+    inputString("Enter q a2: ", &q.a.a2);
+    inputString("Enter q a3: ", &q.a.a3);
+    inputString("Enter the correct answer: ", &q.correctAns);
+    AddQuestion(ls, q.questionID, q.questionIndex, q.questionName,
+     q.a.a1, q.a.a2, q.a.a3, q.correctAns);
     cout<<"<<< Successfully added the question to the list >>>"<<endl;
+    count++;
     cout<<"Add more (1 - Continue), (0 - Finish)? >>>>> "; cin>>inputInt;
-    if(inputInt == 0)
-    break;
+    if(inputInt == 0){
+      cout<<"<<< You have add "<<count<<" question(s) to the list >>>"<<endl;
+      break;
+    }
     else if(inputInt == 1){
       addMoreQ(ls);
     }
   }
-//   AddQuestion(ls, tmp->q.questionID, tmp->q.questionIndex, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2
-// ,tmp->q.a.a3);
-  
 }
+
+void deleteNode(List *ls, Element *tmp, bool *remove){ 
+  //list empty or no node
+  if(ls->head == NULL || tmp == NULL){
+    *remove = false;
+    return;
+  }
+  //head = input element
+  if(ls->head == tmp){
+    ls->head = tmp->next;
+    *remove = true;
+  }
+  if(tmp->next != NULL){
+    tmp->next->previous = tmp->previous;  //need explanation :/
+    *remove = true;
+  }
+  if(tmp->previous != NULL){
+    tmp->previous->next = tmp->next;  //same shit
+    *remove = true;
+  }
+  delete tmp;
+}
+
+void deleteQuestion(List *ls){
+  bool remove = false;
+  Element *e; 
+  e = ls->head;
+  //list empty
+  if(ls->head == NULL){
+    cout<<"There's no question in the list, maybe add some? (1 - Continue), (0 - Menu) >>>>> "; cin>>inputInt;
+    if(inputInt == 1){
+      addMoreQ(ls);
+    }else if(inputInt == 0){
+      return;
+    }
+  }
+  cout<<"What question do you want to remove? >>>>> "; cin>>inputStr;
+    e = checkQuestionsID(ls, inputStr);
+    //no id
+    if(e == NULL){
+      cout<<"The question ID: "<<inputStr<<" doesn't seem to exist (1 - Continue), (0 - Menu) >>>>> "; cin>>inputInt;
+      if(inputInt == 1){
+        deleteQuestion(ls);
+      }else if(inputInt == 0){
+        return;
+      }
+    }
+    deleteNode(ls, e, &remove);
+    if(!remove){
+      cout<<"No such question"<<endl;
+    }else if(remove){
+      cout<<"Successfully removed question from the list (1 - Continue), (0 - Menu) >>>>> "; cin>>inputInt;
+      if(inputInt == 1){
+        deleteQuestion(ls);
+      }else if(inputInt == 0){
+        return;
+      }
+    }else{
+      cout<<"Invalid input - ..."<<endl;
+      _sleep(500);
+      deleteQuestion(ls);
+    }
+    
+}
+
+
 
 void displayQuestion(List *ls) {
   Element *tmp;
@@ -313,15 +362,11 @@ void tmpQuestion(List *ls){
 void createQuestions(List *ls) {
   tmpQuestion(ls);
   // CSQuestion(ls);
-  // for(int i=0;i<numQ;i++){
-  //   addMoreQ(ls, numQ);
-  // }
 }
 
 void adminOpt(List *ls){
-  system("cls");
   adminMenu();
-  cout<<"Enter your choice >>>>>"; cin>>inputInt;
+  cout<<"Enter your choice >>>>> "; cin>>inputInt;
   if(inputInt){
     switch (inputInt)
     {
@@ -336,14 +381,13 @@ void adminOpt(List *ls){
         //Display q
         system("cls");
         displayQuestion(ls);
-        getch();
+        _getch();
         adminOpt(ls);
       break;
       case 3:
         //Remove q
         system("cls");
         deleteQuestion(ls);
-        _getch();
         adminOpt(ls);
       break;
       case 4:
@@ -362,9 +406,9 @@ void adminOpt(List *ls){
         cout<<"WIP"<<endl;
       break;
       case 7:
-        system("cls");
         // Exit
-        cout<<"WIP"<<endl;
+        exit("Back to menu");
+        _sleep(500);
       break;
       default:
         system("cls");

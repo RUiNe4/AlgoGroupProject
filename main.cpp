@@ -1,19 +1,15 @@
 #include "login.h"
 using namespace std;
 
-void home(List *mainList, loginList *loginList){
-  mainMenu();
+void takeTest(List *mainList, loginList *loginList){
+  testTakerMenu();
   cout<<"Enter your choice >>>>> "; cin>>inputInt;
   switch(inputInt){
     case 1:
-    //Login admin
-    system("cls");
-    adminOpt(mainList);
-    break;                                                                                                        
-    case 2:
+    //Register
     signUp(&fname, &lname, &email, &password, &rpassword);
     if(checkExistEmailInFile(email)==0){
-        cout<<"User already exist"<<endl;
+        cout<<"User already exists"<<endl;
     }else if(checkExistEmailInFile(email)==1){
         cout<<"You have successfully registered"<<endl;
         insert(loginList,fname,lname,email,password);
@@ -21,29 +17,46 @@ void home(List *mainList, loginList *loginList){
         writeEmail(loginList);
         writePass(loginList);
     }
-    home(mainList, loginList);
-    //Sign up 
     break;
-    case 3:
-    //Login student
+    case 2:
+    //Login
     Login();
     studentOpt(mainList);
-    // cout<<"WIP"<<endl;
     break;
-    case 4:
-    cout<<"You have exit the program"<<endl;
-    // cout<<"WIP"<<endl;
-    //Exit
+    case 3:
+    exit("Going back to menu");
     break;
-    default:
-    cout<<"Invalid option"<<endl;
+    default: 
+    invalidOpt();
+    takeTest(mainList, loginList);
     break;
   }
 }
 
-// int input;
+void home(List *mainList, loginList *loginList){
+  mainMenu();
+  cout<<"Enter your choice >>>>> "; cin>>inputInt;
+  switch(inputInt){
+    case 1:
+    adminOpt(mainList);
+    home(mainList, loginList);
+    break;                                                                                                        
+    case 2:
+    takeTest(mainList, loginList);
+    home(mainList, loginList);
+    break;
+    case 3:
+    exit("You have successfully exit the program");
+    exit(0);
+    break;
+    default:
+    invalidOpt();
+    home(mainList, loginList);
+    break;
+  }
+}
+
 int main(){
-  Element *tmp;
   List *mainList;
   mainList = createEmptyList();
   
