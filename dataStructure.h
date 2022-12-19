@@ -16,7 +16,7 @@ int input;
 
 string inputAns;
 
-struct Element {
+struct Node{
   struct personInfo{
     string email;
 	  string fname;
@@ -24,7 +24,10 @@ struct Element {
 	  string password;
 	  string rpassword;
   }l;
-  
+  Node *next;
+};
+
+struct Element {
   struct question {
     string questionName;
     string questionID;
@@ -55,8 +58,6 @@ List *createEmptyList() {
   return ls;
 }
 
-
-
 bool checkQuestionsID(List *ls, int id) {
 
   Element *temp;
@@ -79,6 +80,25 @@ bool checkQuestionsID(List *ls, int id) {
   return found;
 }
 
+void deleteQuestion(List *ls){
+  string ip;
+  bool remove = false;
+  Element *e; 
+  
+  e = ls->head;
+  ls->head = ls->head->previous;
+  cout<<e->q.questionName;
+  cout<<"What question do you want to remove? >>>>>"; cin>>ip;
+  while(e!=NULL){
+  if(e->q.questionID == ip){
+    remove = true;
+    delete e;
+  }
+  e = e->next;
+  }
+  if(remove)
+  ls->n = ls->n - 1;
+}
 
 void AddQuestion(List *ls, string questionID, int questionIndex, string questionName, string a1,
                  string a2, string a3,string correctAns) {
@@ -104,23 +124,30 @@ void AddQuestion(List *ls, string questionID, int questionIndex, string question
   ls->n++;
 }
 
-void addMoreQ(List *ls, int numQ){
+void addMoreQ(List *ls){
   // need to write to file
+  int count = 0;
+  // int i=0;
   Element *tmp;
   tmp = ls->head;
-
-  for(int i=0;i<numQ;i++){
-    cout<<"Enter question index: ";
-    cin>>tmp->q.questionIndex;
+  while(true){
+    cout<<"Enter question index: "; cin>>tmp->q.questionIndex;
     inputString("Enter q name: ", &tmp->q.questionName);
     inputString("Enter q ID: ", &tmp->q.questionID);
     inputString("Enter q a1: ", &tmp->q.a.a1);
     inputString("Enter q a2: ", &tmp->q.a.a2);
     inputString("Enter q a3: ", &tmp->q.a.a3);
+    cout<<"<<< Successfully added the question to the list >>>"<<endl;
+    cout<<"Add more (1 - Continue), (0 - Finish)? >>>>> "; cin>>input;
+    if(input == 0)
+    break;
+    else if(input == 1){
+      addMoreQ(ls);
+    }
+  }
 //   AddQuestion(ls, tmp->q.questionID, tmp->q.questionIndex, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2
 // ,tmp->q.a.a3);
-  }
-  cout<<"Successfully added "<<numQ<<" question(s)"<<endl;
+  
 }
 
 void displayQuestion(List *ls) {
@@ -136,9 +163,7 @@ void displayQuestion(List *ls) {
   }
 }
 
-void CSQuestion(){
-    List *ls;
-  ls = createEmptyList();
+void CSQuestion(List *ls){
    AddQuestion(ls, "10" ,10, "What year was the first computer virus created in?",
               "1993", "1965", "1986","c"); // 1986
   AddQuestion(ls, "11" ,11, "One megabyte is equal to how many bytes?", "1000 byte",
@@ -205,13 +230,11 @@ void CSQuestion(){
               "Resolution is least", "Resolution the moderate",
               "Resolution is higher","c");
   
-  displayQuestion(ls);       
+  // displayQuestion(ls);       
 
 }
 
-
-
-void createQuestions(List *ls) {
+void tmpQuestion(List *ls){
   AddQuestion(ls, "1" ,1, "Cambodia academy of digital technology is located in :",
               "Prek Leap ", "Wat Phnom ", "Jomkadoung","a");
   AddQuestion(ls, "2" ,2, "What is the boiling point of water?", " 120 celcius",
@@ -264,51 +287,66 @@ void createQuestions(List *ls) {
               "The nile river", "The yangtze river", "The amazon river","a");
   AddQuestion(ls, "50" ,50, "What is the highest mountain in the world?",
               "Mount Kanchenjunga", "Mount K2", "Mount Everest","c");
+}
 
+void createQuestions(List *ls) {
+  tmpQuestion(ls);
+  CSQuestion(ls);
   // for(int i=0;i<numQ;i++){
   //   addMoreQ(ls, numQ);
   // }
-  
-  // displayQuestion(ls);
 }
 
 void adminOpt(List *ls){
-  Menu:
+  system("cls");
   adminMenu();
   cout<<"Enter your choice >>>>>"; cin>>input;
   if(input){
     switch (input)
     {
       case 1:
-      cout<<"How many questions do you want to add? "; cin>>input;
-      addMoreQ(ls, input);
-      goto Menu;
+      system("cls");
+      // cout<<"How many questions do you want to add? "; cin>>input;
+      addMoreQ(ls);
+      //back to menu
+      adminOpt(ls);
       break;
       case 2:
         //Display q
+        system("cls");
         displayQuestion(ls);
+        getch();
+        adminOpt(ls);
       break;
       case 3:
         //Remove q
-        cout<<"WIP"<<endl;
+        system("cls");
+        deleteQuestion(ls);
+        _getch();
+        adminOpt(ls);
       break;
       case 4:
         //Edit q
+        system("cls");
         cout<<"WIP"<<endl;
       break;
       case 5:
+        system("cls");
         // View Test take login info
         cout<<"WIP"<<endl;
       break;
       case 6:
+        system("cls");
         //View Test Taker history
         cout<<"WIP"<<endl;
       break;
       case 7:
+        system("cls");
         // Exit
         cout<<"WIP"<<endl;
       break;
       default:
+        system("cls");
         cout<<"Invalid option"<<endl;
       break;
     }

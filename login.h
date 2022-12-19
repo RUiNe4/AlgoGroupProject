@@ -1,12 +1,11 @@
-#include"header.h"
 #include "dataStructure.h"
 using namespace std;
 //structur
 string dataOneRow;
 
 void insert(List* ls,string fname,string lname,string email ,string password){
-	Element *e;
-	e=new Element();
+	Node *e;
+	e=new Node();
 	e->l.email=email;
 	e->l.fname=fname;
 	e->l.lname=lname;
@@ -76,7 +75,7 @@ void Login(){
     }
 }
 void displayLoginInfo(List* ls){
-	Element *tm;
+	Node *tm;
 	tm=ls->head;
 	while(tm!=NULL){
 		cout<<tm->l.fname<<" "<<tm->l.lname<<endl;
