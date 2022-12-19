@@ -12,9 +12,8 @@ string password;
 string rpassword;
 
 //Global variable
-int input;
-
-string inputAns;
+int inputInt;
+string inputStr;
 
 struct Node{
   struct personInfo{
