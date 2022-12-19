@@ -139,28 +139,3 @@ void writePass(loginList *ls){
 	passf.close();
 }
 
-
-// main(){
-// 	
-// 	int opt;
-// 	List* l;
-//    l=empty();
-//    cout<<"chose sign up & log in:";cin>>opt;
-//     if(opt==1){
-//         signUp(&fname,&lname,&email,&password,&rpassword);
-//        if(checkExistEmailInFile(email)==0){
-//         cout<<"User exsit"<<endl;
-//     }else if(checkExistEmailInFile(email)==1){
-//         cout<<"not"<<endl;
-
-        // insert(l,fname,lname,email,password);
-//     }
-//    }else if(opt==2){
-//         Login();
-//    }
-
-//    display(l);
-//    writenameemail(l);
-//    wirteemail(l);
-//    wirtepass(l);
-// }
