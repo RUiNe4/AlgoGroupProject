@@ -1,35 +1,16 @@
 #include"header.h"
+#include "dataStructure.h"
 using namespace std;
 //structur
 string dataOneRow;
-struct element{
-	string email;
-	string fname;
-	string lname;
-	string password;
-	string rpassword;
-	element *next;
-};
-struct list{
-	int n;
-	element *head;
-	element *tail;
-};
-list *empty(){
-	list* ls;
-	ls=new list;
-	ls->head=NULL;
-	ls->tail=NULL;
-	ls->n=0;
-	return ls;
-}
-void insert(list* ls,string fname,string lname,string email ,string password){
-	element *e;
-	e=new element();
-	e->email=email;
-	e->fname=fname;
-	e->lname=lname;
-	e->password=password;
+
+void insert(List* ls,string fname,string lname,string email ,string password){
+	Element *e;
+	e=new Element();
+	e->l.email=email;
+	e->l.fname=fname;
+	e->l.lname=lname;
+	e->l.password=password;
 	if(ls->n==0){
 		ls->head=e;
 		ls->tail=e;
@@ -84,32 +65,33 @@ int checkExistpassword(string password){
 }
 void Login(){
     string email,password;
-    cout<<"Email: "; cin>>email;
-    cout<<"password:"; cin>>password;
+    cout<<"Enter email: ";
+		fflush(stdin); getline(cin, email);
+    cout<<"Enter password:"; 
+		fflush(stdin); getline (cin, password);
     if(checkExistEmailInFile(email)==0 && checkExistpassword(password)==0){
-        cout<<"User exsit"<<endl;
+        cout<<"Welcome back name"<<endl;
     }else if(checkExistEmailInFile(email)==1 && checkExistpassword(password)==1){
-        cout<<"not"<<endl;
+        cout<<"Incorrect Password"<<endl;
     }
-
 }
-void display(list* ls){
-	element *tm;
+void displayLoginInfo(List* ls){
+	Element *tm;
 	tm=ls->head;
 	while(tm!=NULL){
-		cout<<tm->fname<<" "<<tm->lname<<endl;
-		cout<<tm->email<<endl;
-		cout<<tm->password;
+		cout<<tm->l.fname<<" "<<tm->l.lname<<endl;
+		cout<<tm->l.email<<endl;
+		cout<<tm->l.password;
 		tm=tm->next;
 	}
 }
 
-void writeNameEmail(list* ls){
-	element *tem;
-	element *te;
+void writeNameEmail(List* ls){
+	Element *tem;
+	Element *te;
 	string t;
-	tem=new element();
-	te=new element();
+	tem=new Element();
+	te=new Element();
 	tem=ls->head;
 	te=tem->next;
 	fstream file;
@@ -117,41 +99,41 @@ void writeNameEmail(list* ls){
 	while(tem->next!=NULL){
 		te=tem->next;
 		while(tem->next){
-			if(tem->fname>te->fname){
-				t=tem->fname;
-				tem->fname=te->fname;
-				te->fname=t;
+			if(tem->l.fname>te->l.fname){
+				t=tem->l.fname;
+				tem->l.fname=te->l.fname;
+				te->l.fname=t;
 			}
 			tem=tem->next;
 		}
 	  te=te->next;
 	}
 		while(tem!=NULL){
-			file<<setw(10)<<tem->fname<<setw(5)<<tem->lname<<endl;
+			file<<setw(10)<<tem->l.fname<<setw(5)<<tem->l.lname<<endl;
 			tem=tem->next;
 		}
     file.close();
 }
-void writeEmail(list *ls){
-	element *te;
+void writeEmail(List *ls){
+	Element *te;
 	te=ls->head;
 	fstream emailf;
 	emailf.open("email.txt",ios::app);
 	while(te!=NULL){
-		emailf<<te->email;
+		emailf<<te->l.email;
 		te=te->next;
 	}
 	emailf<<endl;
     emailf.close();
 
 }
-void writePass(list *ls){
-	element *te;
+void writePass(List *ls){
+	Element *te;
 	te=ls->head;
 	fstream passf;
 	passf.open("password.txt",ios::app);
 	while(te!=NULL){
-		passf<<te->password;;
+		passf<<te->l.password;;
 		te=te->next;
 	}
 	passf<<endl;
@@ -160,13 +142,9 @@ void writePass(list *ls){
 
 
 // main(){
-// 	string fname;
-// 	string lname;
-// 	string email ;
-// 	string password;
-// 	string rpassword;
+// 	
 // 	int opt;
-// 	list* l;
+// 	List* l;
 //    l=empty();
 //    cout<<"chose sign up & log in:";cin>>opt;
 //     if(opt==1){

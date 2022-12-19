@@ -1,9 +1,15 @@
 #include "header.h"
 #include "general.h"
 #include "menu.h"
-#include "login.h"
 // #include <curses.h>
 using namespace std;
+
+//Global Variable to sign in
+string fname;
+string lname;
+string email ;
+string password;
+string rpassword;
 
 //Global variable
 int input;
@@ -11,6 +17,14 @@ int input;
 string inputAns;
 
 struct Element {
+  struct personInfo{
+    string email;
+	  string fname;
+	  string lname;
+	  string password;
+	  string rpassword;
+  }l;
+  
   struct question {
     string questionName;
     string questionID;
@@ -261,7 +275,7 @@ void createQuestions(List *ls) {
 void adminOpt(List *ls){
   Menu:
   adminMenu();
-  cin>>input;
+  cout<<"Enter your choice >>>>>"; cin>>input;
   if(input){
     switch (input)
     {
@@ -272,7 +286,7 @@ void adminOpt(List *ls){
       break;
       case 2:
         //Display q
-        // displayQuestion(ls);
+        displayQuestion(ls);
       break;
       case 3:
         //Remove q
