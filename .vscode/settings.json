@@ -3,11 +3,15 @@
     "xstring": "cpp",
     "ostream": "cpp",
     "iostream": "cpp",
+<<<<<<< HEAD
     "iomanip": "cpp",
     "istream": "cpp",
     "iterator": "cpp",
     "xlocmon": "cpp",
     "xlocnum": "cpp",
     "string": "cpp"
+=======
+    "chrono": "cpp"
+>>>>>>> 83beb7b7248d196beb8295d8f17016d88e58f57e
   }
 }
