@@ -16,6 +16,8 @@ struct Element {
     string questionID;
     int questionIndex;
     string correctAns;
+    string studentAns;
+    int studentScore;
     struct answer {
       string a1;
       string a2;
@@ -201,27 +203,27 @@ void createQuestions(List *ls) {
   AddQuestion(ls, "1" ,1, "Cambodia academy of digital technology is located in :",
               "Prek Leap ", "Wat Phnom ", "Jomkadoung","a");
   AddQuestion(ls, "2" ,2, "What is the boiling point of water?", " 120 celcius",
-              " 100 celcius ", " 95 celcius ","b");
+              " 100 celcius ", " 95 celcius ","a");
   AddQuestion(ls, "3" ,3, "The coldest continent in the world is.", "Antarctica",
               "Greenland", "Alaska","a");
   AddQuestion(ls, "4" ,4,
               "Techo scholarship provides monthly pay for the scholarship "
               "student, how much does each student receive for generation 8? ",
-              "70$", " 80$", "90$","b");
+              "70$", " 80$", "90$","a");
   AddQuestion(ls, "5" ,5, "What is the name of CADT before it was changed? ",
               "NIPTICT", " ITC", "NPIC","a");
   AddQuestion(ls, "6" ,6, "What is the national flower of cambodia?", "Lotus",
-              "Wild lilly", "Romdoul","c");
+              "Wild lilly", "Romdoul","a");
   AddQuestion(ls, "7" ,7, "Which city host the 2002 olympic?", "Beijing", "Sydney",
-              "Tokyo","b"); // it's sydney
-  AddQuestion(ls, "8" ,8, " Where was tea invented?", "England", "USA", "China","c");
+              "Tokyo","a"); // it's sydney
+  AddQuestion(ls, "8" ,8, " Where was tea invented?", "England", "USA", "China","a");
   AddQuestion(ls, "9" ,9, "What language does the Cambodian speak?", "Cambodese",
-              "Khmer", "Khmeir","b");
+              "Khmer", "Khmeir","a");
  
   AddQuestion(ls, "29" ,29, "What is the largest organ in the human body?", "Skin",
               "Muscle", "The veins","a");
   AddQuestion(ls, "30" ,30, "Which planet is known as the red planet?", "Venus",
-              "Mercury", "mars","c");
+              "Mercury", "mars","a");
   AddQuestion(ls, "31" ,31, "How many continents are there in the world?", "6", "7",
               "8","b");
   AddQuestion(ls, "32" ,32, "The periodic table has how many elements?", "90", "110",
@@ -303,26 +305,75 @@ void adminOpt(List *ls){
 
 int finalScore;
 
-void takeTest(List *ls){
-  Element *tmp = ls->head;
+void addAccuracy(List *ls, string questionName, string a1,
+                 string a2, string a3, string inputAns, string correctAns)
+{
+  Element *e = new Element();
+  e->q.questionName = questionName;
+  e->q.a.a1 = a1;
+  e->q.a.a2 = a2;
+  e->q.a.a3 = a3;
+  e->q.correctAns = correctAns;
+  e->q.studentAns = inputAns;
+  e->next = ls->head;
+  e->previous = NULL;
+  if (ls->n == 0) {
+    // e->next=NULL;
+    ls->head = e;
+    ls->tail = e;
+  } else if (ls->n != 0) {
+    ls->head->previous = e;
+    ls->head = e;
+  }
+  ls->n++;
+}
+
+void displayAccuracy(List *ls){
+  Element *tmp = ls->tail;
+  int count = 1;
   finalScore = 0;
+  while (tmp != NULL) {
+  cout<<count<< "- " << tmp->q.questionName << endl;
+  cout << "a. " << tmp->q.a.a1 << endl;
+  cout << "b. " << tmp->q.a.a2 << endl;
+  cout << "c. " << tmp->q.a.a3 << endl;
+  cout <<endl<<"Your input answer: "<<tmp->q.studentAns<<endl;
+  cout << "Correct answer: "<<tmp->q.correctAns<<endl;
+  if (tmp->q.studentAns == tmp->q.correctAns){
+    cout<<"Correct"<<endl;
+    cout<< "-----------------------------------------------------------------------------------"<<endl;
+    finalScore += 3;
+  }else{
+    cout<<"Incorrect"<<endl;
+    finalScore -= 1;
+    cout<< "-----------------------------------------------------------------------------------"<<endl;
+
+  }
+  tmp = tmp->previous;
+  count++;
+  cout<<endl;
+  }
+  cout<<"Your final point is: "<<finalScore<<endl;
+  cout<<" -----------------------------";
+}
+
+void takeTest(List *ls, List *ls1){
+  Element *tmp = ls->tail;
   while(tmp!=NULL){
     for (int i = 0 ;i<10;i++){
     system("cls");
     Top:
-    cout<<tmp->q.questionName<<endl;
+    cout<<i+1<<"- "<<tmp->q.questionName<<endl;
     cout<<"a. "<<tmp->q.a.a1<<endl;
     cout<<"b. "<<tmp->q.a.a2<<endl;
     cout<<"c. "<<tmp->q.a.a3<<endl;
     cout<<"Enter answer: ";  
     fflush(stdin);
     getline(cin,inputAns);
+
     if(inputAns == "a" || inputAns == "b" || inputAns == "c"){
-      if (inputAns == tmp->q.correctAns){
-        finalScore += 3;
-      }else{
-        // finalScore -= 1;
-      }
+      addAccuracy(ls1, tmp->q.questionName,tmp->q.a.a1,tmp->q.a.a2,tmp->q.a.a3,
+      inputAns,tmp->q.correctAns);
       cout<<endl;
     }else{
       cout<<"Invalid Input, please enter again"<<endl;
@@ -330,16 +381,17 @@ void takeTest(List *ls){
       getch();
       goto Top;
     }
-    tmp = tmp->next;
+    tmp = tmp->previous;
     }
     break;
   }
-  cout<<"Your final point is: "<<finalScore;
-  cout<<" -----------------------------";
+
   getch();
 }
 
 void studentOpt(List *ls){
+  List *accuracyList;
+  accuracyList = createEmptyList();
   Menu:
   system("cls");
   studentMenu();
@@ -348,8 +400,12 @@ void studentOpt(List *ls){
   {
   case 1:
     system("cls");
-    takeTest(ls);
+    takeTest(ls, accuracyList);
     goto Menu;
+  case 2:
+    system("cls");
+    displayAccuracy(accuracyList);
+    break;
   default:
     break;
   }
