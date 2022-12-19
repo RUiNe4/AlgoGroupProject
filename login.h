@@ -1,8 +1,4 @@
-#include<iostream>
-#include<fstream>
-#include<string.h>
-#include <iomanip>
-#include<conio.h>
+#include"header.h"
 using namespace std;
 //structur
 string dataOneRow;
@@ -108,7 +104,7 @@ void display(list* ls){
 	}
 }
 
-void writenameemail(list* ls){
+void writeNameEmail(list* ls){
 	element *tem;
 	element *te;
 	string t;
@@ -136,7 +132,7 @@ void writenameemail(list* ls){
 		}
     file.close();
 }
-void wirteemail(list *ls){
+void writeEmail(list *ls){
 	element *te;
 	te=ls->head;
 	fstream emailf;
@@ -149,7 +145,7 @@ void wirteemail(list *ls){
     emailf.close();
 
 }
-void wirtepass(list *ls){
+void writePass(list *ls){
 	element *te;
 	te=ls->head;
 	fstream passf;
@@ -161,31 +157,33 @@ void wirtepass(list *ls){
 	passf<<endl;
 	passf.close();
 }
-main(){
-	string fname;
-	string lname;
-	string email ;
-	string password;
-	string rpassword;
-	int opt;
-	list* l;
-   l=empty();
-   cout<<"chose sign up & log in:";cin>>opt;
-    if(opt==1){
-        signUp(&fname,&lname,&email,&password,&rpassword);
-       if(checkExistEmailInFile(email)==0){
-        cout<<"User exsit"<<endl;
-    }else if(checkExistEmailInFile(email)==1){
-        cout<<"not"<<endl;
 
-        insert(l,fname,lname,email,password);
-    }
-   }else if(opt==2){
-        Login();
-   }
 
-   display(l);
-   writenameemail(l);
-   wirteemail(l);
-   wirtepass(l);
-}
+// main(){
+// 	string fname;
+// 	string lname;
+// 	string email ;
+// 	string password;
+// 	string rpassword;
+// 	int opt;
+// 	list* l;
+//    l=empty();
+//    cout<<"chose sign up & log in:";cin>>opt;
+//     if(opt==1){
+//         signUp(&fname,&lname,&email,&password,&rpassword);
+//        if(checkExistEmailInFile(email)==0){
+//         cout<<"User exsit"<<endl;
+//     }else if(checkExistEmailInFile(email)==1){
+//         cout<<"not"<<endl;
+
+//         insert(l,fname,lname,email,password);
+//     }
+//    }else if(opt==2){
+//         Login();
+//    }
+
+//    display(l);
+//    writenameemail(l);
+//    wirteemail(l);
+//    wirtepass(l);
+// }

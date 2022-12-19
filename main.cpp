@@ -7,7 +7,7 @@ int main(){
   mainList = createEmptyList();
   createQuestions(mainList);
   mainMenu();
-  cout<<"Input: ";
+  cout<<"Enter your choice >>>>> ";
   cin>>input;
   switch(input){
     case 1:
@@ -15,6 +15,7 @@ int main(){
     adminOpt(mainList);
     break;                                                                                                        
     case 2:
+
     cout<<"WIP"<<endl;
     //Sign up 
     break;
