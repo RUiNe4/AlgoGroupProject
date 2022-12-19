@@ -451,11 +451,11 @@ void takeTest(List *ls, List *ls1){
     cout<<"c. "<<tmp->q.a.a3<<endl;
     cout<<"Enter answer: ";  
     fflush(stdin);
-    getline(cin,inputAns);
+    getline(cin,inputStr);
 
-    if(inputAns == "a" || inputAns == "b" || inputAns == "c"){
+    if(inputStr == "a" || inputStr == "b" || inputStr == "c"){
       addAccuracy(ls1, tmp->q.questionName,tmp->q.a.a1,tmp->q.a.a2,tmp->q.a.a3,
-      inputAns,tmp->q.correctAns);
+      inputStr,tmp->q.correctAns);
       cout<<endl;
     }else{
       cout<<"Invalid Input, please enter again"<<endl;
