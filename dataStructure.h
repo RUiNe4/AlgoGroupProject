@@ -258,7 +258,7 @@ void editQuestion(List *ls) {
   cout << "Which question do you wish to edit? >>>>> ";
   cin >> inputStr;
   tmp = findQuestionPos(ls, inputStr);
-  cout<<"This is the question you have selected "<<endl;
+  cout<<"This is the question you have selected "<<endl<<endl;
   cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
     cout << "a. " << tmp->q.a.a1 << endl;
     cout << "b. " << tmp->q.a.a2 << endl;
