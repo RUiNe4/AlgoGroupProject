@@ -1,7 +1,7 @@
 #include "login.h"
 using namespace std;
 
-void takeTest(List *mainList, loginList *loginList) {
+void startTest(List *mainList, loginList *loginList) {
   testTakerMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
@@ -29,7 +29,7 @@ void takeTest(List *mainList, loginList *loginList) {
     break;
   default:
     invalidOpt();
-    takeTest(mainList, loginList);
+    startTest(mainList, loginList);
     break;
   }
 }
@@ -44,7 +44,7 @@ void home(List *mainList, loginList *loginList) {
     home(mainList, loginList);
     break;
   case 2:
-    takeTest(mainList, loginList);
+    startTest(mainList, loginList);
     home(mainList, loginList);
     break;
   case 3:

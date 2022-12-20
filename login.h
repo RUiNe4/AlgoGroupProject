@@ -138,4 +138,3 @@ void writePass(loginList *ls){
 	passf<<endl;
 	passf.close();
 }
-

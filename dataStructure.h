@@ -1,7 +1,6 @@
-#include "general.h"
 #include "header.h"
 #include "menu.h"
-
+#include "general.h"
 // #include <curses.h>
 using namespace std;
 
@@ -599,6 +598,7 @@ void displayAccuracy(List *ls) {
   cout << " -----------------------------";
 }
 
+
 void takeTest(List *ls, List *ls1) {
   Element *tmp = ls->tail;
   while (tmp != NULL) {
@@ -628,7 +628,7 @@ void takeTest(List *ls, List *ls1) {
     break;
   }
 
-  getch();
+  _getch();
 }
 
 void studentOpt(List *ls) {
