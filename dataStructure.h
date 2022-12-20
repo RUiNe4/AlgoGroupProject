@@ -44,7 +44,7 @@ struct loginList {
   Node *head, *tail;
 };
 
-loginList *createEmptyLoginList() {
+inline loginList *createEmptyLoginList() {
   loginList *ls;
   ls = new loginList;
 
@@ -77,7 +77,7 @@ struct List {
   Element *head, *tail;
 };
 
-List *createEmptyList() {
+inline List *createEmptyList() {
   List *ls;
   ls = new List;
 
@@ -88,7 +88,7 @@ List *createEmptyList() {
   return ls;
 }
 
-bool checkQuestionID(List *ls, string questionID, bool found) {
+inline bool checkQuestionID(List *ls, string questionID, bool found) {
   Element *tmp;
   tmp = ls->head;
   while (tmp != NULL) {
@@ -101,7 +101,7 @@ bool checkQuestionID(List *ls, string questionID, bool found) {
   return found;
 }
 
-Element *findQuestionPos(List *ls, string id) {
+inline Element *findQuestionPos(List *ls, string id) {
 
   Element *temp;
   temp = ls->head;
@@ -116,7 +116,7 @@ Element *findQuestionPos(List *ls, string id) {
   return NULL;
 }
 
-void AddQuestion(List *ls, string questionID, int questionIndex,
+inline void AddQuestion(List *ls, string questionID, int questionIndex,
                  string questionName, string a1, string a2, string a3,
                  string correctAns) {
   Element *e;
@@ -143,7 +143,7 @@ void AddQuestion(List *ls, string questionID, int questionIndex,
   ls->n++;
 }
 
-void addMoreQ(List *ls) {
+inline void addMoreQ(List *ls) {
   // need to write to file
   bool found = false;
   int count = 1;
@@ -181,7 +181,7 @@ void addMoreQ(List *ls) {
   }
 }
 
-void deleteNode(List *ls, Element *tmp, bool *remove) {
+inline void deleteNode(List *ls, Element *tmp, bool *remove) {
   // list empty or no node
   if (ls->head == NULL || tmp == NULL) {
     *remove = false;
@@ -203,7 +203,7 @@ void deleteNode(List *ls, Element *tmp, bool *remove) {
   delete tmp;
 }
 
-void deleteQuestion(List *ls) {
+inline void deleteQuestion(List *ls) {
   bool remove = false;
   Element *e;
   e = ls->head;
@@ -251,18 +251,18 @@ void deleteQuestion(List *ls) {
   }
 }
 
-void editQuestion(List *ls) {
+inline void editQuestion(List *ls) {
   Element *tmp;
   bool success = false;
   cout << "Which question do you wish to edit? >>>>> ";
   cin >> inputStr;
   tmp = findQuestionPos(ls, inputStr);
-  cout<<"This is the question you have selected "<<endl<<endl;
-  cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
+  if(tmp != NULL){
+    cout<<"This is the question you have selected "<<endl<<endl;
+    cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
     cout << "a. " << tmp->q.a.a1 << endl;
     cout << "b. " << tmp->q.a.a2 << endl;
     cout << "c. " << tmp->q.a.a3 << endl << endl;
-  if(tmp != NULL){
     cout<<"Which part do you want to edit? -"<<endl;
     cout<<"0 - Back to Menu"<<endl;
     cout<<"1 - Everything"<<endl;
@@ -326,7 +326,7 @@ void editQuestion(List *ls) {
   }
 }
 
-void displayQuestion(List *ls) {
+inline void displayQuestion(List *ls) {
   Element *tmp;
   tmp = ls->head;
   while (tmp != NULL) {
@@ -338,7 +338,7 @@ void displayQuestion(List *ls) {
   }
 }
 
-void CSQuestion(List *ls) {
+inline void CSQuestion(List *ls) {
   AddQuestion(ls, "10", 10,
               "What year was the first computer virus created in?", "1993",
               "1965", "1986", "c"); // 1986
@@ -411,7 +411,7 @@ void CSQuestion(List *ls) {
               "Resolution is higher", "c");
 }
 
-void tmpQuestion(List *ls) {
+inline void tmpQuestion(List *ls) {
   AddQuestion(ls, "1", 1,
               "Cambodia academy of digital technology is located in :",
               "Prek Leap ", "Wat Phnom ", "Jomkadoung", "a");
@@ -480,12 +480,12 @@ void tmpQuestion(List *ls) {
   //             "Mount Kanchenjunga", "Mount K2", "Mount Everest","c");
 }
 
-void createQuestions(List *ls) {
+inline void createQuestions(List *ls) {
   tmpQuestion(ls);
   // CSQuestion(ls);
 }
 
-void adminOpt(List *ls, loginList *loginLs) {
+inline void adminOpt(List *ls, loginList *loginLs) {
   adminMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
@@ -544,7 +544,7 @@ void adminOpt(List *ls, loginList *loginLs) {
 
 int finalScore;
 
-void addAccuracy(List *ls, string questionName, string a1, string a2, string a3,
+inline void addAccuracy(List *ls, string questionName, string a1, string a2, string a3,
                  string inputAns, string correctAns) {
   Element *e = new Element();
   e->q.questionName = questionName;
@@ -566,7 +566,7 @@ void addAccuracy(List *ls, string questionName, string a1, string a2, string a3,
   ls->n++;
 }
 
-void displayAccuracy(List *ls) {
+inline void displayAccuracy(List *ls) {
   Element *tmp = ls->tail;
   int count = 1;
   finalScore = 0;
@@ -599,7 +599,7 @@ void displayAccuracy(List *ls) {
 }
 
 
-void takeTest(List *ls, List *ls1) {
+inline void takeTest(List *ls, List *ls1) {
   Element *tmp = ls->tail;
   while (tmp != NULL) {
     for (int i = 0; i < 10; i++) {
@@ -631,7 +631,7 @@ void takeTest(List *ls, List *ls1) {
   _getch();
 }
 
-void studentOpt(List *ls) {
+inline void studentOpt(List *ls) {
   List *accuracyList;
   accuracyList = createEmptyList();
 Menu:

@@ -2,19 +2,19 @@
 #include <conio.h>
 using namespace std;
 
-void exit(string msg){
+inline void exit(string msg){
   system("cls");
   cout<<msg<<endl;
   _sleep(500);
 }
 
-void invalidOpt(){
+inline void invalidOpt(){
   system("cls");
   cout<<"Invalid option - Press any key to continue";
   _getch();
 }
 
-void mainMenu(){
+inline void mainMenu(){
   system("cls");
   cout<<"Who are you?"<<endl;
   cout<<"1 - Admin"<<endl;
@@ -22,14 +22,14 @@ void mainMenu(){
   cout<<"3 - Exit"<<endl;
 }
 
-void testTakerMenu(){
+inline void testTakerMenu(){
   system("cls");
   cout<<"1 - Sign up"<<endl;
   cout<<"2 - Already have an account? ==> Take test"<<endl;
   cout<<"3 - Back to menu"<<endl;
 }
 
-void adminMenu(){
+inline void adminMenu(){
   system("cls");
   cout<<"1. Add questions"<<endl;
   cout<<"2. Display Current question"<<endl;
@@ -40,7 +40,7 @@ void adminMenu(){
   cout<<"7. Back to menu"<<endl;
 }
 
-void studentMenu(){
+inline void studentMenu(){
   system("cls");
   cout<<"1. Take test"<<endl;
   cout<<"2. Display Result"<<endl;
