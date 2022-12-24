@@ -64,8 +64,12 @@ int main() {
 
   loginList *loginList;
   loginList = createEmptyLoginList();
-
-  createQuestions(mainList);
-  home(mainList, loginList);
+  
+  // createQuestions(mainList);
+  
+  displayQuestion(mainList);
+  
+  cout<<"1";
+  // home(mainList, loginList);
   return 0;
 }

@@ -86,18 +86,18 @@ inline List *createEmptyList() {
   return ls;
 }
 
-// inline bool checkQuestionID(List *ls, int questionIndex, bool found) {
-//   Element *tmp;
-//   tmp = ls->head;
-//   while (tmp != NULL) {
-//     if (tmp->q.questionIndex == questionID) {
-//       found = true;
-//       return found;
-//     }
-//     tmp = tmp->next;
-//   }
-//   return found;
-// }
+inline bool checkQuestionID(List *ls, int questionIndex, bool found) {
+  Element *tmp;
+  tmp = ls->head;
+  while (tmp != NULL) {
+    if (tmp->q.questionIndex == questionIndex) {
+      found = true;
+      return found;
+    }
+    tmp = tmp->next;
+  }
+  return found;
+}
 
 inline Element *findQuestionPos(List *ls, int index) {
 
@@ -115,16 +115,17 @@ inline Element *findQuestionPos(List *ls, int index) {
 }
 
 inline void AddQuestion(List *ls, int questionIndex,
-                 string questionName, string a1, string a2, string a3,
-                 string correctAns) {
+                 string questionName) {
+                  // , string a1, string a2, string a3,
+                //  string correctAns
   Element *e;
   e = new Element;
   e->q.questionIndex = questionIndex;
   e->q.questionName = questionName;
-  e->q.a.a1 = a1;
-  e->q.a.a2 = a2;
-  e->q.a.a3 = a3;
-  e->q.correctAns = correctAns;
+  // e->q.a.a1 = a1;
+  // e->q.a.a2 = a2;
+  // e->q.a.a3 = a3;
+  // e->q.correctAns = correctAns;
 
   if (ls->n == 0) {
     e->next = NULL;
@@ -145,21 +146,22 @@ inline void AddQuestion(List *ls, int questionIndex,
 //   bool found = false;
 //   int count = 0;
 //   while (1) {
-//     inputString("Enter q ID: ", &q.questionID);
-//     if (checkQuestionID(ls, q.questionID, found)) {
+//     cout<<"Enter question index: ";
+//     cin>>q.questionIndex;
+//     if (checkQuestionID(ls, q.questionIndex, found)) {
 //       cout << "Id already exists" << endl;
 //       cout << "Please try again" << endl;
 //       addMoreQ(ls);
 //     } else {
-//       cout << "Enter question index: ";
-//       cin >> q.questionIndex;
+//       // cout << "Enter question index: ";
+//       // cin >> q.questionIndex;
 //       inputString("Enter q name: ", &q.questionName);
 //       inputString("Enter q a1: ", &q.a.a1);
 //       inputString("Enter q a2: ", &q.a.a2);
 //       inputString("Enter q a3: ", &q.a.a3);
 //       inputString("Enter the correct answer: ", &q.correctAns);
 //     }
-//     AddQuestion(ls, q.questionID, q.questionIndex, q.questionName, q.a.a1,
+//     AddQuestion(ls, q.questionIndex, q.questionName, q.a.a1,
 //                 q.a.a2, q.a.a3, q.correctAns);
 //     cout << "<<< Successfully added the question to the list >>>" << endl;
 //     count++;
@@ -178,148 +180,148 @@ inline void AddQuestion(List *ls, int questionIndex,
 //   }
 // }
 
-// inline void deleteNode(List *ls, Element *tmp, bool *remove) {
-//   // list empty or no node
-//   if (ls->head == NULL || tmp == NULL) {
-//     *remove = false;
-//     return;
-//   }
-//   // head = input element
-//   if (ls->head == tmp) {
-//     ls->head = tmp->next;
-//     *remove = true;
-//   }
-//   if (tmp->next != NULL) {
-//     tmp->next->previous = tmp->previous; // need explanation :/
-//     *remove = true;
-//   }
-//   if (tmp->previous != NULL) {
-//     tmp->previous->next = tmp->next; // same shit
-//     *remove = true;
-//   }
-//   delete tmp;
-// }
+inline void deleteNode(List *ls, Element *tmp, bool *remove) {
+  // list empty or no node
+  if (ls->head == NULL || tmp == NULL) {
+    *remove = false;
+    return;
+  }
+  // head = input element
+  if (ls->head == tmp) {
+    ls->head = tmp->next;
+    *remove = true;
+  }
+  if (tmp->next != NULL) {
+    tmp->next->previous = tmp->previous; // need explanation :/
+    *remove = true;
+  }
+  if (tmp->previous != NULL) {
+    tmp->previous->next = tmp->next; // same shit
+    *remove = true;
+  }
+  delete tmp;
+}
 
-// inline void deleteQuestion(List *ls) {
-//   bool remove = false;
-//   Element *e;
-//   e = ls->head;
-//   // list empty
-//   if (ls->head == NULL) {
-//     cout << "There's no question in the list, maybe add some? (1 - Continue), "
-//             "(0 - Menu) >>>>> ";
-//     cin >> inputInt;
-//     if (inputInt == 1) {
-//       addMoreQ(ls);
-//     } else if (inputInt == 0) {
-//       return;
-//     }
-//   }
-//   cout << "What question do you want to remove? >>>>> ";
-//   cin >> inputInt;
-//   e = findQuestionPos(ls, inputInt);
-//   // no id
-//   if (e == NULL) {
-//     cout << "The question ID: " << inputStr
-//          << " doesn't seem to exist (1 - Continue), (0 - Menu) >>>>> ";
-//     cin >> inputInt;
-//     if (inputInt == 1) {
-//       deleteQuestion(ls);
-//     } else if (inputInt == 0) {
-//       return;
-//     }
-//   }
-//   deleteNode(ls, e, &remove);
-//   if (!remove) {
-//     cout << "No such question" << endl;
-//   } else if (remove) {
-//     cout << "Successfully removed question from the list (1 - Continue), (0 - "
-//             "Menu) >>>>> ";
-//     cin >> inputInt;
-//     if (inputInt == 1) {
-//       deleteQuestion(ls);
-//     } else if (inputInt == 0) {
-//       return;
-//     }
-//   } else {
-//     cout << "Invalid input - ..." << endl;
-//     _sleep(500);
-//     deleteQuestion(ls);
-//   }
-// }
+inline void deleteQuestion(List *ls) {
+  bool remove = false;
+  Element *e;
+  e = ls->head;
+  // list empty
+  if (ls->head == NULL) {
+    cout << "There's no question in the list, maybe add some? (1 - Continue), "
+            "(0 - Menu) >>>>> ";
+    cin >> inputInt;
+    if (inputInt == 1) {
+      // addMoreQ(ls);
+    } else if (inputInt == 0) {
+      return;
+    }
+  }
+  cout << "What question do you want to remove? >>>>> ";
+  cin >> inputInt;
+  e = findQuestionPos(ls, inputInt);
+  // no id
+  if (e == NULL) {
+    cout << "The question ID: " << inputStr
+         << " doesn't seem to exist (1 - Continue), (0 - Menu) >>>>> ";
+    cin >> inputInt;
+    if (inputInt == 1) {
+      deleteQuestion(ls);
+    } else if (inputInt == 0) {
+      return;
+    }
+  }
+  deleteNode(ls, e, &remove);
+  if (!remove) {
+    cout << "No such question" << endl;
+  } else if (remove) {
+    cout << "Successfully removed question from the list (1 - Continue), (0 - "
+            "Menu) >>>>> ";
+    cin >> inputInt;
+    if (inputInt == 1) {
+      deleteQuestion(ls);
+    } else if (inputInt == 0) {
+      return;
+    }
+  } else {
+    cout << "Invalid input - ..." << endl;
+    _sleep(500);
+    deleteQuestion(ls);
+  }
+}
 
-// inline void editQuestion(List *ls) {
-//   Element *tmp;
-//   bool success = false;
-//   cout << "Which question do you wish to edit? >>>>> ";
-//   cin >> inputInt;
-//   tmp = findQuestionPos(ls, inputInt);
-//   if(tmp != NULL){
-//     cout<<"This is the question you have selected "<<endl<<endl;
-//     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-//     cout << "a. " << tmp->q.a.a1 << endl;
-//     cout << "b. " << tmp->q.a.a2 << endl;
-//     cout << "c. " << tmp->q.a.a3 << endl << endl;
-//     cout<<"Which part do you want to edit? -"<<endl;
-//     cout<<"0 - Back to Menu"<<endl;
-//     cout<<"1 - Everything"<<endl;
-//     cout<<"2 - Question Name"<<endl;
-//     cout<<"3 - Answers"<<endl;
-//     cout<<"4 - Correct Answer"<<endl;
-//     cout<<" >>>>> ";
-//     cin>>inputInt;
-//     switch(inputInt){
-//       case 0:
-//       exit("Going back to menu");
-//       break;
-//       case 1:
-//       inputString("Rename question: ", &q.questionName);
-//       tmp->q.questionName = q.questionName;
-//       inputString("Edit answer 1: ", &q.a.a1);
-//       tmp->q.a.a1 = q.a.a1;
-//       inputString("Edit answer 1: ", &q.a.a2);
-//       tmp->q.a.a2 = q.a.a2;
-//       inputString("Edit answer 1: ", &q.a.a3);
-//       tmp->q.a.a3 = q.a.a3;
-//       inputString("Enter the correct answer: ", &q.correctAns);
-//       tmp->q.correctAns = q.correctAns;
-//       success = true;
-//       break;
-//       case 2:
-//       inputString("Rename question: ", &q.questionName);
-//       tmp->q.questionName = q.questionName;
-//       success = true;
-//       break;
-//       case 3: 
-//       inputString("Edit answer 1: ", &q.a.a1);
-//       tmp->q.a.a1 = q.a.a1;
-//       inputString("Edit answer 1: ", &q.a.a2);
-//       tmp->q.a.a2 = q.a.a2;
-//       inputString("Edit answer 1: ", &q.a.a3);
-//       tmp->q.a.a3 = q.a.a3;
-//       success = true;
-//       break;
-//       case 4:
-//       inputString("Enter the correct answer: ", &q.correctAns);
-//       tmp->q.correctAns = q.correctAns;
-//       success = true;
-//       break;
-//       default:
-//       invalidOpt();
-//       break;
-//     }
-//   }else if(ls->head == NULL || tmp == NULL){
-//     cout<<"No such question in the list - Press any key to try again"<<endl;
-//     editQuestion(ls);
-//   }
-//   if(success){
-//     cout<<"The question now looks like >>>>> "<<endl;
-//     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-//     cout << "a. " << tmp->q.a.a1 << endl;
-//     cout << "b. " << tmp->q.a.a2 << endl;
-//     cout << "c. " << tmp->q.a.a3 << endl << endl;
-//   }
-// }
+inline void editQuestion(List *ls) {
+  Element *tmp;
+  bool success = false;
+  cout << "Which question do you wish to edit? >>>>> ";
+  cin >> inputInt;
+  tmp = findQuestionPos(ls, inputInt);
+  if(tmp != NULL){
+    cout<<"This is the question you have selected "<<endl<<endl;
+    cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
+    cout << "a. " << tmp->q.a.a1 << endl;
+    cout << "b. " << tmp->q.a.a2 << endl;
+    cout << "c. " << tmp->q.a.a3 << endl << endl;
+    cout<<"Which part do you want to edit? -"<<endl;
+    cout<<"0 - Back to Menu"<<endl;
+    cout<<"1 - Everything"<<endl;
+    cout<<"2 - Question Name"<<endl;
+    cout<<"3 - Answers"<<endl;
+    cout<<"4 - Correct Answer"<<endl;
+    cout<<" >>>>> ";
+    cin>>inputInt;
+    switch(inputInt){
+      case 0:
+      exit("Going back to menu");
+      break;
+      case 1:
+      inputString("Rename question: ", &q.questionName);
+      tmp->q.questionName = q.questionName;
+      inputString("Edit answer 1: ", &q.a.a1);
+      tmp->q.a.a1 = q.a.a1;
+      inputString("Edit answer 1: ", &q.a.a2);
+      tmp->q.a.a2 = q.a.a2;
+      inputString("Edit answer 1: ", &q.a.a3);
+      tmp->q.a.a3 = q.a.a3;
+      inputString("Enter the correct answer: ", &q.correctAns);
+      tmp->q.correctAns = q.correctAns;
+      success = true;
+      break;
+      case 2:
+      inputString("Rename question: ", &q.questionName);
+      tmp->q.questionName = q.questionName;
+      success = true;
+      break;
+      case 3: 
+      inputString("Edit answer 1: ", &q.a.a1);
+      tmp->q.a.a1 = q.a.a1;
+      inputString("Edit answer 1: ", &q.a.a2);
+      tmp->q.a.a2 = q.a.a2;
+      inputString("Edit answer 1: ", &q.a.a3);
+      tmp->q.a.a3 = q.a.a3;
+      success = true;
+      break;
+      case 4:
+      inputString("Enter the correct answer: ", &q.correctAns);
+      tmp->q.correctAns = q.correctAns;
+      success = true;
+      break;
+      default:
+      invalidOpt();
+      break;
+    }
+  }else if(ls->head == NULL || tmp == NULL){
+    cout<<"No such question in the list - Press any key to try again"<<endl;
+    editQuestion(ls);
+  }
+  if(success){
+    cout<<"The question now looks like >>>>> "<<endl;
+    cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
+    cout << "a. " << tmp->q.a.a1 << endl;
+    cout << "b. " << tmp->q.a.a2 << endl;
+    cout << "c. " << tmp->q.a.a3 << endl << endl;
+  }
+}
 
 inline void displayQuestion(List *ls) {
   Element *tmp;
@@ -333,30 +335,32 @@ inline void displayQuestion(List *ls) {
   }
 }
 
-inline void createQuestions(List *ls) {  
-  fstream question;
-  question.open(questionList, ios::in);
+void createQuestions(List *ls) {  
+  fstream questionFile;
+  questionFile.open(questionList, ios::in);
   //check if file is empty
-  if(!question.is_open()){
-    cout<<"Cannot open file"<<endl;
+  if(!questionFile.is_open()){
+    cout<<"Can't Open file"<<endl;
   }
-  else if(question.peek() == EOF){
+  if(questionFile.peek() == EOF){
     cout<<"No Content in file"<<endl;
   }else{
-    while(!question.eof()){
-      
-      question>>q.questionIndex;
-      question>>q.questionName;
-      question>>q.a.a1;
-      question>>q.a.a2;
-      question>>q.a.a3;
-      question>>q.correctAns;
+    while(!questionFile.eof()){
+      questionFile>>q.questionIndex;
+      questionFile>>q.questionName;
+      // questionFile>>q.a.a1;
+      // questionFile>>q.a.a2;
+      // questionFile>>q.a.a3;
+      // questionFile>>q.correctAns;
     
-      AddQuestion(ls,q.questionIndex,q.questionName, q.a.a1,q.a.a2,q.a.a3,q.correctAns);
+      AddQuestion(ls ,q.questionIndex,q.questionName);
+      // , q.a.a1,q.a.a2,q.a.a3,q.correctAns
     }
   
   }
-  question.close();
+  cout<<"1";
+  questionFile.close();
+  displayQuestion(ls);
 }
 inline void adminOpt(List *ls, loginList *loginLs) {
   adminMenu();
@@ -525,23 +529,23 @@ Menu:
   }
 }
 
-void saveFile(List *ls){
-  fstream file;
-  file.open(questionList, ios::out);
-  Element *tmp;
-  tmp = ls->head;
-    while(tmp != NULL){
-    file<<"\n"<<tmp->q.questionIndex<<endl;
-    file<<tmp->q.questionName<<endl;
-    file<<tmp->q.a.a1<<endl;
-    file<<tmp->q.a.a2<<endl;
-    file<<tmp->q.a.a3<<endl;
-    file<<tmp->q.correctAns;
-    tmp = tmp->next;
-    }
+// void saveFile(List *ls){
+//   fstream file;
+//   file.open(questionList, ios::out);
+//   Element *tmp;
+//   tmp = ls->head;
+//     while(tmp != NULL){
+//     file<<"\n"<<tmp->q.questionIndex<<endl;
+//     file<<tmp->q.questionName<<endl;
+//     file<<tmp->q.a.a1<<endl;
+//     file<<tmp->q.a.a2<<endl;
+//     file<<tmp->q.a.a3<<endl;
+//     file<<tmp->q.correctAns;
+//     tmp = tmp->next;
+//     }
   
-  file.close();
-}
+//   file.close();
+// }
 
 
 // inline void AddQuestion(List *ls, int questionIndex,
