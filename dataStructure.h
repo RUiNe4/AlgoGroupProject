@@ -3,17 +3,16 @@
 #include "general.h"
 // #include <curses.h>
 using namespace std;
+string indexList = "index.txt";
 string questionList = "question.txt";
+string answerList = "normalAns.txt";
+string correctAnsList = "correctAns.txt";
 // for adding questions
 struct question {
   int questionIndex;
   string questionName;
   string correctAns;
-  struct answer {
-    string a1;
-    string a2;
-    string a3;
-  } a;
+  string normalAns;
 } q;
 
 // Global Variable to sign in
@@ -61,11 +60,7 @@ struct Element {
     string correctAns;
     string studentAns;
     int studentScore;
-    struct answer {
-      string a1;
-      string a2;
-      string a3;
-    } a;
+    string normalAnswer;
   } q;
   Element *next, *previous;
 };
@@ -115,17 +110,13 @@ inline Element *findQuestionPos(List *ls, int index) {
 }
 
 inline void AddQuestion(List *ls, int questionIndex,
-                 string questionName) {
-                  // , string a1, string a2, string a3,
-                //  string correctAns
+                 string questionName, string normalAns, string correctAns) {
   Element *e;
   e = new Element;
   e->q.questionIndex = questionIndex;
   e->q.questionName = questionName;
-  // e->q.a.a1 = a1;
-  // e->q.a.a2 = a2;
-  // e->q.a.a3 = a3;
-  // e->q.correctAns = correctAns;
+  e->q.normalAnswer = normalAns;
+  e->q.correctAns = correctAns;
 
   if (ls->n == 0) {
     e->next = NULL;
@@ -141,44 +132,65 @@ inline void AddQuestion(List *ls, int questionIndex,
   ls->n++;
 }
 
-// inline void addMoreQ(List *ls) {
-//   // need to write to file
-//   bool found = false;
-//   int count = 0;
-//   while (1) {
-//     cout<<"Enter question index: ";
-//     cin>>q.questionIndex;
-//     if (checkQuestionID(ls, q.questionIndex, found)) {
-//       cout << "Id already exists" << endl;
-//       cout << "Please try again" << endl;
-//       addMoreQ(ls);
-//     } else {
-//       // cout << "Enter question index: ";
-//       // cin >> q.questionIndex;
-//       inputString("Enter q name: ", &q.questionName);
-//       inputString("Enter q a1: ", &q.a.a1);
-//       inputString("Enter q a2: ", &q.a.a2);
-//       inputString("Enter q a3: ", &q.a.a3);
-//       inputString("Enter the correct answer: ", &q.correctAns);
-//     }
-//     AddQuestion(ls, q.questionIndex, q.questionName, q.a.a1,
-//                 q.a.a2, q.a.a3, q.correctAns);
-//     cout << "<<< Successfully added the question to the list >>>" << endl;
-//     count++;
-//     cout << "Add more (1 - Continue), (0 - Finish)? >>>>> ";
-//     cin >> inputInt;
-//     if (inputInt == 0) {
-//       cout << "<<< You have added " << count << " question(s) to the list >>>"
-//            << endl;
-//       cout << "Press any key to continue";
-//       _getch();
-//       break;
-//     } else if (inputInt == 1) {
-//       addMoreQ(ls);
-//     }
-//     break;
-//   }
-// }
+void saveFile(List *ls){
+  fstream indexFile;
+  fstream questionFile;
+  fstream answerFile;
+  fstream correctAnsFile;
+
+  indexFile.open(indexList, ios::out);
+  questionFile.open(questionList, ios::out);
+  answerFile.open(answerList, ios::out);
+  correctAnsFile.open(correctAnsList, ios::out);
+
+  Element *tmp;
+  tmp = ls->head;
+    while(tmp != NULL){
+    indexFile<<"\n"<<tmp->q.questionIndex<<endl;
+    questionFile<<tmp->q.questionName<<endl;
+    answerFile<<tmp->q.normalAnswer<<endl;
+    correctAnsFile<<tmp->q.correctAns<<endl;
+    tmp = tmp->next;
+    }
+  indexFile.close();
+  questionFile.close();
+  answerFile.close();
+  correctAnsFile.close();
+}
+
+inline void addMoreQ(List *ls) {
+  bool found = false;
+  int count = 1;
+  while (1) {
+    cout<<"Enter question index: ";
+    cin>>q.questionIndex;
+    if (checkQuestionID(ls, q.questionIndex, found)) {
+      cout << "Id already exists" << endl;
+      cout << "Please try again" << endl;
+      addMoreQ(ls);
+    } else {
+      inputString("Enter q name: ", &q.questionName);
+      inputString("Enter normal answer: ", &q.normalAns);
+      inputString("Enter the correct answer: ", &q.correctAns);
+    }
+    AddQuestion(ls, q.questionIndex, q.questionName, q.normalAns ,q.correctAns);
+    cout << "<<< Successfully added the question to the list >>>" << endl;
+    count++;
+    cout << "Add more (1 - Continue), (0 - Finish)? >>>>> ";
+    cin >> inputInt;
+    if (inputInt == 0) {
+      cout << "<<< You have added " << count << " question(s) to the list >>>"
+           << endl;
+      cout << "Press any key to continue";
+      _getch();
+      
+      break;
+    } else if (inputInt == 1) {
+      addMoreQ(ls);
+    }
+    break;
+  }
+}
 
 inline void deleteNode(List *ls, Element *tmp, bool *remove) {
   // list empty or no node
@@ -259,9 +271,7 @@ inline void editQuestion(List *ls) {
   if(tmp != NULL){
     cout<<"This is the question you have selected "<<endl<<endl;
     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-    cout << "a. " << tmp->q.a.a1 << endl;
-    cout << "b. " << tmp->q.a.a2 << endl;
-    cout << "c. " << tmp->q.a.a3 << endl << endl;
+    cout << tmp->q.normalAnswer << endl;
     cout<<"Which part do you want to edit? -"<<endl;
     cout<<"0 - Back to Menu"<<endl;
     cout<<"1 - Everything"<<endl;
@@ -277,12 +287,8 @@ inline void editQuestion(List *ls) {
       case 1:
       inputString("Rename question: ", &q.questionName);
       tmp->q.questionName = q.questionName;
-      inputString("Edit answer 1: ", &q.a.a1);
-      tmp->q.a.a1 = q.a.a1;
-      inputString("Edit answer 1: ", &q.a.a2);
-      tmp->q.a.a2 = q.a.a2;
-      inputString("Edit answer 1: ", &q.a.a3);
-      tmp->q.a.a3 = q.a.a3;
+      inputString("Edit answer 1: ", &q.normalAns);
+      tmp->q.normalAnswer = q.normalAns;
       inputString("Enter the correct answer: ", &q.correctAns);
       tmp->q.correctAns = q.correctAns;
       success = true;
@@ -293,12 +299,8 @@ inline void editQuestion(List *ls) {
       success = true;
       break;
       case 3: 
-      inputString("Edit answer 1: ", &q.a.a1);
-      tmp->q.a.a1 = q.a.a1;
-      inputString("Edit answer 1: ", &q.a.a2);
-      tmp->q.a.a2 = q.a.a2;
-      inputString("Edit answer 1: ", &q.a.a3);
-      tmp->q.a.a3 = q.a.a3;
+      inputString("Edit answer 1: ", &q.normalAns);
+      tmp->q.normalAnswer = q.normalAns;
       success = true;
       break;
       case 4:
@@ -317,9 +319,7 @@ inline void editQuestion(List *ls) {
   if(success){
     cout<<"The question now looks like >>>>> "<<endl;
     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-    cout << "a. " << tmp->q.a.a1 << endl;
-    cout << "b. " << tmp->q.a.a2 << endl;
-    cout << "c. " << tmp->q.a.a3 << endl << endl;
+    cout << tmp->q.normalAnswer << endl;
   }
 }
 
@@ -328,39 +328,41 @@ inline void displayQuestion(List *ls) {
   tmp = ls->head;
   while (tmp != NULL) {
     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-    cout << "a. " << tmp->q.a.a1 << endl;
-    cout << "b. " << tmp->q.a.a2 << endl;
-    cout << "c. " << tmp->q.a.a3 << endl << endl;
+    cout << tmp->q.normalAnswer << endl;
     tmp = tmp->next;
   }
+  _getch();
 }
 
 void createQuestions(List *ls) {  
+  fstream indexFile;
   fstream questionFile;
+  fstream answerFile;
+  fstream correctAnsFile;
+
+  indexFile.open(indexList, ios::in);
   questionFile.open(questionList, ios::in);
+  answerFile.open(answerList, ios::in);
+  correctAnsFile.open(correctAnsList, ios::in);
   //check if file is empty
-  if(!questionFile.is_open()){
+  if(!indexFile.is_open() || !questionFile.is_open() || !answerFile.is_open() || !correctAnsFile.is_open()){
     cout<<"Can't Open file"<<endl;
   }
-  if(questionFile.peek() == EOF){
+  if(indexFile.peek() == EOF || questionFile.peek() == EOF || answerFile.peek() == EOF || correctAnsFile.peek() == EOF){
     cout<<"No Content in file"<<endl;
   }else{
-    while(!questionFile.eof()){
-      questionFile>>q.questionIndex;
-      questionFile>>q.questionName;
-      // questionFile>>q.a.a1;
-      // questionFile>>q.a.a2;
-      // questionFile>>q.a.a3;
-      // questionFile>>q.correctAns;
+    while(!indexFile.eof() && getline(questionFile, q.questionName) && getline(answerFile, q.normalAns) && !correctAnsFile.eof()){
+      indexFile>>q.questionIndex;
+      correctAnsFile>>q.correctAns;
     
-      AddQuestion(ls ,q.questionIndex,q.questionName);
-      // , q.a.a1,q.a.a2,q.a.a3,q.correctAns
+      AddQuestion(ls ,q.questionIndex,q.questionName, q.normalAns, q.correctAns);
     }
   
   }
-  cout<<"1";
+  indexFile.close();
   questionFile.close();
-  displayQuestion(ls);
+  answerFile.close();
+  correctAnsFile.close();
 }
 inline void adminOpt(List *ls, loginList *loginLs) {
   adminMenu();
@@ -371,7 +373,7 @@ inline void adminOpt(List *ls, loginList *loginLs) {
     case 1:
       system("cls");
       // cout<<"How many questions do you want to add? "; cin>>input;
-      // addMoreQ(ls);
+      addMoreQ(ls);
       // back to menu
       adminOpt(ls, loginLs);
       break;
@@ -385,14 +387,14 @@ inline void adminOpt(List *ls, loginList *loginLs) {
     case 3:
       // Remove q
       system("cls");
-      // deleteQuestion(ls);
+      deleteQuestion(ls);
       adminOpt(ls, loginLs);
       break;
     case 4:
       // Edit q
       system("cls");
-      // editQuestion(ls);
-      // _getch();
+      editQuestion(ls);
+      _getch();
       adminOpt(ls, loginLs);
       // cout << "WIP" << endl;
       break;
@@ -425,9 +427,9 @@ inline void addAccuracy(List *ls, string questionName, string a1, string a2, str
                  string inputAns, string correctAns) {
   Element *e = new Element();
   e->q.questionName = questionName;
-  e->q.a.a1 = a1;
-  e->q.a.a2 = a2;
-  e->q.a.a3 = a3;
+  // e->q.a.a1 = a1;
+  // e->q.a.a2 = a2;
+  // e->q.a.a3 = a3;
   e->q.correctAns = correctAns;
   e->q.studentAns = inputAns;
   e->next = ls->head;
@@ -449,9 +451,9 @@ inline void displayAccuracy(List *ls) {
   finalScore = 0;
   while (tmp != NULL) {
     cout << count << "- " << tmp->q.questionName << endl;
-    cout << "a. " << tmp->q.a.a1 << endl;
-    cout << "b. " << tmp->q.a.a2 << endl;
-    cout << "c. " << tmp->q.a.a3 << endl;
+    // cout << "a. " << tmp->q.a.a1 << endl;
+    // cout << "b. " << tmp->q.a.a2 << endl;
+    // cout << "c. " << tmp->q.a.a3 << endl;
     cout << endl << "Your input answer: " << tmp->q.studentAns << endl;
     cout << "Correct answer: " << tmp->q.correctAns << endl;
     if (tmp->q.studentAns == tmp->q.correctAns) {
@@ -476,76 +478,59 @@ inline void displayAccuracy(List *ls) {
 }
 
 
-inline void takeTest(List *ls, List *ls1) {
-  Element *tmp = ls->tail;
-  while (tmp != NULL) {
-    for (int i = 0; i < 10; i++) {
-      system("cls");
-    Top:
-      cout << i + 1 << "- " << tmp->q.questionName << endl;
-      cout << "a. " << tmp->q.a.a1 << endl;
-      cout << "b. " << tmp->q.a.a2 << endl;
-      cout << "c. " << tmp->q.a.a3 << endl;
-      cout << "Enter answer: ";
-      fflush(stdin);
-      getline(cin, inputStr);
+// inline void takeTest(List *ls, List *ls1) {
+//   Element *tmp = ls->tail;
+//   while (tmp != NULL) {
+//     for (int i = 0; i < 10; i++) {
+//       system("cls");
+//     Top:
+//       cout << i + 1 << "- " << tmp->q.questionName << endl;
+//       cout << "a. " << tmp->q.a.a1 << endl;
+//       cout << "b. " << tmp->q.a.a2 << endl;
+//       cout << "c. " << tmp->q.a.a3 << endl;
+//       cout << "Enter answer: ";
+//       fflush(stdin);
+//       getline(cin, inputStr);
 
-      if (inputStr == "a" || inputStr == "b" || inputStr == "c") {
-        addAccuracy(ls1, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2,
-                    tmp->q.a.a3, inputStr, tmp->q.correctAns);
-        cout << endl;
-      } else {
-        cout << "Invalid Input, please enter again" << endl;
-        cout << " -----------------------------";
-        // getch();
-        goto Top;
-      }
-      tmp = tmp->previous;
-    }
-    break;
-  }
-
-  // _getch();
-}
-
-inline void studentOpt(List *ls) {
-  List *accuracyList;
-  accuracyList = createEmptyList();
-Menu:
-  system("cls");
-  studentMenu();
-  cin >> inputInt;
-  switch (inputInt) {
-  case 1:
-    system("cls");
-    takeTest(ls, accuracyList);
-    goto Menu;
-  case 2:
-    system("cls");
-    displayAccuracy(accuracyList);
-    break;
-  default:
-    break;
-  }
-}
-
-// void saveFile(List *ls){
-//   fstream file;
-//   file.open(questionList, ios::out);
-//   Element *tmp;
-//   tmp = ls->head;
-//     while(tmp != NULL){
-//     file<<"\n"<<tmp->q.questionIndex<<endl;
-//     file<<tmp->q.questionName<<endl;
-//     file<<tmp->q.a.a1<<endl;
-//     file<<tmp->q.a.a2<<endl;
-//     file<<tmp->q.a.a3<<endl;
-//     file<<tmp->q.correctAns;
-//     tmp = tmp->next;
+//       if (inputStr == "a" || inputStr == "b" || inputStr == "c") {
+//         addAccuracy(ls1, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2,
+//                     tmp->q.a.a3, inputStr, tmp->q.correctAns);
+//         cout << endl;
+//       } else {
+//         cout << "Invalid Input, please enter again" << endl;
+//         cout << " -----------------------------";
+//         // getch();
+//         goto Top;
+//       }
+//       tmp = tmp->previous;
 //     }
-  
-//   file.close();
+//     break;
+//   }
+
+//   // _getch();
 // }
+
+// inline void studentOpt(List *ls) {
+//   List *accuracyList;
+//   accuracyList = createEmptyList();
+// Menu:
+//   system("cls");
+//   studentMenu();
+//   cin >> inputInt;
+//   switch (inputInt) {
+//   case 1:
+//     system("cls");
+//     takeTest(ls, accuracyList);
+//     goto Menu;
+//   case 2:
+//     system("cls");
+//     displayAccuracy(accuracyList);
+//     break;
+//   default:
+//     break;
+//   }
+// }
+
 
 
 // inline void AddQuestion(List *ls, int questionIndex,

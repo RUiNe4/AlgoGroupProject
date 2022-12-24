@@ -22,7 +22,7 @@ void startTest(List *mainList, loginList *loginList) {
   case 2:
     // Login
     Login();
-    studentOpt(mainList);
+    // studentOpt(mainList);
     break;
   case 3:
     exit("Going back to menu");
@@ -48,6 +48,7 @@ void home(List *mainList, loginList *loginList) {
     home(mainList, loginList);
     break;
   case 3:
+    saveFile(mainList);
     exit("You have successfully exit the program");
     exit(0);
     break;
@@ -65,11 +66,13 @@ int main() {
   loginList *loginList;
   loginList = createEmptyLoginList();
   
-  // createQuestions(mainList);
+  createQuestions(mainList);
   
+  home(mainList, loginList);
   displayQuestion(mainList);
-  
-  cout<<"1";
-  // home(mainList, loginList);
+
+  addMoreQ(mainList);
+  cout<<endl;
+  // displayQuestion(mainList);
   return 0;
 }
