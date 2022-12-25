@@ -71,7 +71,6 @@ int main() {
   home(mainList, loginList);
   displayQuestion(mainList);
 
-  addMoreQ(mainList);
   cout<<endl;
   // displayQuestion(mainList);
   return 0;

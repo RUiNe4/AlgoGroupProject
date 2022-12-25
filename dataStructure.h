@@ -372,7 +372,6 @@ inline void adminOpt(List *ls, loginList *loginLs) {
     switch (inputInt) {
     case 1:
       system("cls");
-      // cout<<"How many questions do you want to add? "; cin>>input;
       addMoreQ(ls);
       // back to menu
       adminOpt(ls, loginLs);
@@ -400,7 +399,7 @@ inline void adminOpt(List *ls, loginList *loginLs) {
       break;
     case 5:
       system("cls");
-      // View Test take login info
+      // View Test taker login info
       cout << "WIP" << endl;
       break;
     case 6:
@@ -411,7 +410,7 @@ inline void adminOpt(List *ls, loginList *loginLs) {
     case 7:
       // Exit
       exit("Back to menu");
-      // _sleep(500);
+      _sleep(500);
       break;
     default:
       system("cls");
