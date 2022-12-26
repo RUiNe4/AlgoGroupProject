@@ -65,10 +65,19 @@ int main() {
 
   loginList *loginList;
   loginList = createEmptyLoginList();
+
+  List *scoreList;
+  scoreList = createEmptyList(); 
   
   createQuestions(mainList);
   
-  home(mainList, loginList);
+  // home(mainList, loginList);
+
+  saveScoreFromFile(scoreList);
+  sortList(scoreList);
+  displayScore(scoreList);
+  saveScoreToFile(scoreList);
+  
 
   return 0;
 }

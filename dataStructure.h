@@ -7,12 +7,14 @@ string indexList = "index.txt";
 string questionList = "question.txt";
 string answerList = "normalAns.txt";
 string correctAnsList = "correctAns.txt";
+string ScoreList = "Scoreboard.txt";
 // for adding questions
 struct question {
   int questionIndex;
   string questionName;
   string correctAns;
   string normalAns;
+  int studentScore;
 } q;
 
 // Global Variable to sign in
@@ -445,36 +447,24 @@ inline void addAccuracy(List *ls, string questionName, string normalAns,
 inline void displayAccuracy(List *ls) {
   Element *tmp = ls->tail;
   int count = 1;
-  finalScore = 0;
   while (tmp != NULL) {
     cout << count << "- " << tmp->q.questionName << endl;
     cout << tmp->q.normalAnswer << endl;
     cout << endl << "Your input answer: " << tmp->q.studentAns << endl;
     cout << "Correct answer: " << tmp->q.correctAns << endl;
-    if (tmp->q.studentAns == tmp->q.correctAns) {
-      cout << "Correct" << endl;
-      cout << "----------------------------------------------------------------"
-              "-------------------"
-           << endl;
-      finalScore += 3;
-    } else {
-      cout << "Incorrect" << endl;
-      finalScore -= 1;
-      cout << "----------------------------------------------------------------"
-              "-------------------"
-           << endl;
-    }
     tmp = tmp->previous;
     count++;
     cout << endl;
   }
-  cout << "Your final point is: " << finalScore << endl;
   cout << " -----------------------------";
   _getch();
 }
 
 inline void takeTest(List *ls, List *ls1) {
   Element *tmp = ls->tail;
+  finalScore = 0;
+  fstream scoreFile;
+  scoreFile.open(ScoreList, ios::app);
   while (tmp != NULL) {
     for (int i = 0; i < 10; i++) {
       system("cls");
@@ -486,9 +476,13 @@ inline void takeTest(List *ls, List *ls1) {
       fflush(stdin);
       getline(cin, inputStr);
       if (inputStr == "a" || inputStr == "b" || inputStr == "c") {
+        if (inputStr == tmp->q.correctAns) {
+          finalScore += 3;
+        } else {
+          finalScore -= 1;
+        }
         addAccuracy(ls1, tmp->q.questionName, tmp->q.normalAnswer
                     ,inputStr, tmp->q.correctAns);
-        cout << endl;
       } else {
         cout << "Invalid Input, please enter again" << endl;
         cout << " -----------------------------";
@@ -497,6 +491,8 @@ inline void takeTest(List *ls, List *ls1) {
       }
       tmp = tmp->previous;
     }
+    scoreFile<<"\n"<<finalScore;
+    scoreFile.close();
     break;
   }
 
@@ -529,4 +525,82 @@ inline void studentOpt(List *ls) {
     goto Top;
     break;
   }
+}
+
+void displayScore(List *ls){
+  Element *tmp = ls->head;
+  while(tmp!=NULL){
+    cout<<tmp->q.studentScore<<endl;
+    tmp = tmp->next;
+  }
+}
+
+void addToScoreList(List *ls, int studentScore){
+  Element *e;
+  e = new Element;
+  e->q.studentScore = studentScore;
+  if (ls->n == 0){
+    e->next = NULL;
+    e->previous = NULL;
+    ls->head = e;
+    ls->tail = e;
+  }else if (ls->n != 0){
+    e->next = ls->head;
+    e->previous = NULL;
+    ls->head->previous = e;
+    ls->head = e;
+  }
+  ls->n++;
+}
+
+void saveScoreFromFile(List *ls){
+  fstream scoreFile;
+  scoreFile.open(ScoreList, ios::in);
+  Element *tmp = ls->head;
+  if(!scoreFile.is_open()){
+    cout<<"Can't Open File"<<endl;
+  }
+  if (scoreFile.peek() == EOF){
+    cout<<"No content in File"<< endl;
+  }else{
+    while(!scoreFile.eof()){
+      scoreFile>>q.studentScore;
+      addToScoreList(ls, q.studentScore);
+    }
+  }
+  scoreFile.close();
+}
+
+void saveScoreToFile(List *ls){
+  fstream ScoreFile;
+  ScoreFile.open(ScoreList, ios::out);
+  Element *tmp;
+  tmp = ls->head;
+  while(tmp!=NULL){
+    ScoreFile<<"\n"<<tmp->q.studentScore;
+    tmp = tmp->next;
+  }
+  ScoreFile.close();
+}
+
+void sortList(List *ls){
+    Element *current = ls->head, *index = NULL;
+    Element *temp;
+    int score;
+    if(ls->head == NULL){
+        return;
+    }else{
+        while(current!=NULL){
+            index = current->next;
+            while(index!=NULL){
+                if (current->q.studentScore > index->q.studentScore){
+                score = current->q.studentScore;
+                current->q.studentScore = index->q.studentScore;
+                index->q.studentScore   = score;
+            }
+        index = index->next;
+        }
+        current = current->next;
+      }
+    }
 }

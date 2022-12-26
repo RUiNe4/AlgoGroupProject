@@ -1,17 +1,15 @@
-a. Prek leap  b. Wat Phnom   c.Jomkadoug
-a. 120 Celsius  b. 100 Celsius  c.80 Celsius
-a.Antarctica  b.Greenland c.Alaska
-a.70$   b.80$   c.90$
-a.NIPTICT   b.ITC   c.NPIC
-a.Lotus   b.Wild lilly    c.Romdoul flower
-a.Beijing   b.Sydney(this)    c.Tokyo
-a.England   b.USA   c.china
-a.Cambodese   b.Khmer   c.Khmeir
-a.1993    b.1965    c.1986
-a.1000 byte   b.1000000 byte  c.1048576 bytes
-a.America   b.China   c.Korea
-a.system.out.println(“Hello world”);  b.print(“hello world”);  c.cout<<”hello world”;
-a.# this is a comment   b.// this is  comment   c.- - this is a comment.
 a.Functionname{}    b.Functionname[]    c.Functionname()
-
-
+a.# this is a comment   b.// this is  comment   c.- - this is a comment.
+a.system.out.println(“Hello world”);  b.print(“hello world”);  c.cout<<”hello world”;
+a.America   b.China   c.Korea
+a.1000 byte   b.1000000 byte  c.1048576 bytes
+a.1993    b.1965    c.1986
+a.Cambodese   b.Khmer   c.Khmeir
+a.England   b.USA   c.china
+a.Beijing   b.Sydney(this)    c.Tokyo
+a.Lotus   b.Wild lilly    c.Romdoul flower
+a.NIPTICT   b.ITC   c.NPIC
+a.70$   b.80$   c.90$
+a.Antarctica  b.Greenland c.Alaska
+a. 120 Celsius  b. 100 Celsius  c.80 Celsius
+a. Prek leap  b. Wat Phnom   c.Jomkadoug
