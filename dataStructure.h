@@ -146,7 +146,7 @@ void saveFile(List *ls){
   Element *tmp;
   tmp = ls->head;
     while(tmp != NULL){
-    indexFile<<"\n"<<tmp->q.questionIndex<<endl;
+    indexFile<<tmp->q.questionIndex<<endl;
     questionFile<<tmp->q.questionName<<endl;
     answerFile<<tmp->q.normalAnswer<<endl;
     correctAnsFile<<tmp->q.correctAns<<endl;
@@ -325,11 +325,12 @@ inline void editQuestion(List *ls) {
 
 inline void displayQuestion(List *ls) {
   Element *tmp;
-  tmp = ls->head;
+  tmp = ls->tail;
   while (tmp != NULL) {
     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
     cout << tmp->q.normalAnswer << endl;
-    tmp = tmp->next;
+    cout<< endl;
+    tmp = tmp->previous;
   }
   _getch();
 }
@@ -422,19 +423,16 @@ inline void adminOpt(List *ls, loginList *loginLs) {
 
 int finalScore;
 
-inline void addAccuracy(List *ls, string questionName, string a1, string a2, string a3,
+inline void addAccuracy(List *ls, string questionName, string normalAns,
                  string inputAns, string correctAns) {
   Element *e = new Element();
   e->q.questionName = questionName;
-  // e->q.a.a1 = a1;
-  // e->q.a.a2 = a2;
-  // e->q.a.a3 = a3;
+  e->q.normalAnswer = normalAns;
   e->q.correctAns = correctAns;
   e->q.studentAns = inputAns;
   e->next = ls->head;
   e->previous = NULL;
   if (ls->n == 0) {
-    // e->next=NULL;
     ls->head = e;
     ls->tail = e;
   } else if (ls->n != 0) {
@@ -450,9 +448,7 @@ inline void displayAccuracy(List *ls) {
   finalScore = 0;
   while (tmp != NULL) {
     cout << count << "- " << tmp->q.questionName << endl;
-    // cout << "a. " << tmp->q.a.a1 << endl;
-    // cout << "b. " << tmp->q.a.a2 << endl;
-    // cout << "c. " << tmp->q.a.a3 << endl;
+    cout << tmp->q.normalAnswer << endl;
     cout << endl << "Your input answer: " << tmp->q.studentAns << endl;
     cout << "Correct answer: " << tmp->q.correctAns << endl;
     if (tmp->q.studentAns == tmp->q.correctAns) {
@@ -474,64 +470,63 @@ inline void displayAccuracy(List *ls) {
   }
   cout << "Your final point is: " << finalScore << endl;
   cout << " -----------------------------";
+  _getch();
 }
 
+inline void takeTest(List *ls, List *ls1) {
+  Element *tmp = ls->tail;
+  while (tmp != NULL) {
+    for (int i = 0; i < 10; i++) {
+      system("cls");
+      Top:
+      tmp = findQuestionPos(ls,1 + rand()%ls->n);
+      cout << i + 1 << "- " << tmp->q.questionName << endl;
+      cout << tmp->q.normalAnswer <<endl;
+      cout << "Enter answer: ";
+      fflush(stdin);
+      getline(cin, inputStr);
+      if (inputStr == "a" || inputStr == "b" || inputStr == "c") {
+        addAccuracy(ls1, tmp->q.questionName, tmp->q.normalAnswer
+                    ,inputStr, tmp->q.correctAns);
+        cout << endl;
+      } else {
+        cout << "Invalid Input, please enter again" << endl;
+        cout << " -----------------------------";
+        getch();
+        goto Top;
+      }
+      tmp = tmp->previous;
+    }
+    break;
+  }
 
-// inline void takeTest(List *ls, List *ls1) {
-//   Element *tmp = ls->tail;
-//   while (tmp != NULL) {
-//     for (int i = 0; i < 10; i++) {
-//       system("cls");
-//     Top:
-//       cout << i + 1 << "- " << tmp->q.questionName << endl;
-//       cout << "a. " << tmp->q.a.a1 << endl;
-//       cout << "b. " << tmp->q.a.a2 << endl;
-//       cout << "c. " << tmp->q.a.a3 << endl;
-//       cout << "Enter answer: ";
-//       fflush(stdin);
-//       getline(cin, inputStr);
+  _getch();
+}
 
-//       if (inputStr == "a" || inputStr == "b" || inputStr == "c") {
-//         addAccuracy(ls1, tmp->q.questionName, tmp->q.a.a1, tmp->q.a.a2,
-//                     tmp->q.a.a3, inputStr, tmp->q.correctAns);
-//         cout << endl;
-//       } else {
-//         cout << "Invalid Input, please enter again" << endl;
-//         cout << " -----------------------------";
-//         // getch();
-//         goto Top;
-//       }
-//       tmp = tmp->previous;
-//     }
-//     break;
-//   }
-
-//   // _getch();
-// }
-
-// inline void studentOpt(List *ls) {
-//   List *accuracyList;
-//   accuracyList = createEmptyList();
-// Menu:
-//   system("cls");
-//   studentMenu();
-//   cin >> inputInt;
-//   switch (inputInt) {
-//   case 1:
-//     system("cls");
-//     takeTest(ls, accuracyList);
-//     goto Menu;
-//   case 2:
-//     system("cls");
-//     displayAccuracy(accuracyList);
-//     break;
-//   default:
-//     break;
-//   }
-// }
-
-
-
-// inline void AddQuestion(List *ls, int questionIndex,
-//                  string questionName, string a1, string a2, string a3,
-//                  string correctAns) {
+inline void studentOpt(List *ls) {
+  List *accuracyList;
+  accuracyList = createEmptyList();
+  Top:
+  system("cls");
+  studentMenu();
+  cin >> inputInt;
+  switch (inputInt) {
+  case 1:
+    system("cls");
+    takeTest(ls, accuracyList);
+    goto Top;
+    break;
+  case 2:
+    system("cls");
+    displayAccuracy(accuracyList);
+    goto Top;
+    break;
+  case 3:
+    testTakerMenu();
+    break;
+  default:
+    cout<<"Invalid Option..";
+    goto Top;
+    break;
+  }
+}

@@ -22,7 +22,7 @@ void startTest(List *mainList, loginList *loginList) {
   case 2:
     // Login
     Login();
-    // studentOpt(mainList);
+    studentOpt(mainList);
     break;
   case 3:
     exit("Going back to menu");
@@ -69,9 +69,6 @@ int main() {
   createQuestions(mainList);
   
   home(mainList, loginList);
-  displayQuestion(mainList);
 
-  cout<<endl;
-  // displayQuestion(mainList);
   return 0;
 }
