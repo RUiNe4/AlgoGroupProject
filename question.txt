@@ -1,2 +1,15 @@
-yo
-hello
+How do you create a function in c++?
+How do you insert COMMENTs in C++ code?
+Which is the correct syntax to output “hello world” in c++?
+Apple was created in which country?
+One megabyte is equal to how many bytes?
+What year was the first computer virus created in?
+What language does the Cambodian speak?
+Where was tea invented?
+Which city host the 2002 olympic?
+What is the national flower of cambodia?
+What is the name of CADT before it was changed?
+Techo scholarship provides monthly pay for the scholarship student, how much does each student receive for generation 8?
+The coldest continent in the world is :
+What is the boiling point of water?
+Cambodia academy of digital technology is located in :
