@@ -1,28 +1,21 @@
 #include "login.h"
-using namespace std;
 
 void startTest(List *mainList, loginList *loginList) {
+  int inputInt;
   testTakerMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
   switch (inputInt) {
   case 1:
     // Register
-    signUp(&fname, &lname, &email, &password, &rpassword);
-    if (checkExistEmailInFile(email) == 0) {
-      cout << "User already exists" << endl;
-    } else if (checkExistEmailInFile(email) == 1) {
-      cout << "You have successfully registered" << endl;
-      insert(loginList, fname, lname, email, password);
-      writeNameEmail(loginList);
-      writeEmail(loginList);
-      writePass(loginList);
-    }
+    signUp(loginList);
+    saveLoginFile(loginList);
     break;
   case 2:
     // Login
-    Login();
+    Login(loginList);
     // studentOpt(mainList);
+    startTest(mainList, loginList);
     break;
   case 3:
     exit("Going back to menu");
@@ -35,6 +28,7 @@ void startTest(List *mainList, loginList *loginList) {
 }
 
 void home(List *mainList, loginList *loginList) {
+  int inputInt;
   mainMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
@@ -54,24 +48,23 @@ void home(List *mainList, loginList *loginList) {
     break;
   default:
     invalidOpt();
+    _getch();
     home(mainList, loginList);
     break;
   }
 }
 
 int main() {
+
   List *mainList;
   mainList = createEmptyList();
 
   loginList *loginList;
   loginList = createEmptyLoginList();
-  
+  readLoginInfo(loginList);
   createQuestions(mainList);
-  
-  home(mainList, loginList);
-  displayQuestion(mainList);
 
-  cout<<endl;
-  // displayQuestion(mainList);
+  home(mainList, loginList);
+  
   return 0;
 }

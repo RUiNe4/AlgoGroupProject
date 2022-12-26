@@ -1,8 +1,7 @@
 #include "header.h"
 #include "menu.h"
 #include "general.h"
-// #include <curses.h>
-using namespace std;
+
 string indexList = "index.txt";
 string questionList = "question.txt";
 string answerList = "normalAns.txt";
@@ -15,26 +14,16 @@ struct question {
   string normalAns;
 } q;
 
-// Global Variable to sign in
-string fname;
-string lname;
-string email;
-string password;
-string rpassword;
-
 // Global variable
-int inputInt;
-string inputStr;
 
 struct Node {
   struct personInfo {
     string email;
-    string fname;
-    string lname;
+    string username;
     string password;
     string rpassword;
   } l;
-  Node *next;
+  Node *next, *previous;
 };
 
 struct loginList {
@@ -81,6 +70,29 @@ inline List *createEmptyList() {
   return ls;
 }
 
+inline void AddQuestion(List *ls, int questionIndex,
+                 string questionName, string normalAns, string correctAns) {
+  Element *e;
+  e = new Element;
+  e->q.questionIndex = questionIndex;
+  e->q.questionName = questionName;
+  e->q.normalAnswer = normalAns;
+  e->q.correctAns = correctAns;
+
+  if (ls->n == 0) {
+    e->next = NULL;
+    e->previous = NULL;
+    ls->head = e;
+    ls->tail = e;
+  } else if (ls->n != 0) {
+    e->next = ls->head;
+    e->previous = NULL;
+    ls->head->previous = e;
+    ls->head = e;
+  }
+  ls->n++;
+}
+
 inline bool checkQuestionID(List *ls, int questionIndex, bool found) {
   Element *tmp;
   tmp = ls->head;
@@ -109,29 +121,6 @@ inline Element *findQuestionPos(List *ls, int index) {
   return NULL;
 }
 
-inline void AddQuestion(List *ls, int questionIndex,
-                 string questionName, string normalAns, string correctAns) {
-  Element *e;
-  e = new Element;
-  e->q.questionIndex = questionIndex;
-  e->q.questionName = questionName;
-  e->q.normalAnswer = normalAns;
-  e->q.correctAns = correctAns;
-
-  if (ls->n == 0) {
-    e->next = NULL;
-    e->previous = NULL;
-    ls->head = e;
-    ls->tail = e;
-  } else if (ls->n != 0) {
-    e->next = ls->head;
-    e->previous = NULL;
-    ls->head->previous = e;
-    ls->head = e;
-  }
-  ls->n++;
-}
-
 void saveFile(List *ls){
   fstream indexFile;
   fstream questionFile;
@@ -146,7 +135,7 @@ void saveFile(List *ls){
   Element *tmp;
   tmp = ls->head;
     while(tmp != NULL){
-    indexFile<<"\n"<<tmp->q.questionIndex<<endl;
+    indexFile<<tmp->q.questionIndex<<endl;
     questionFile<<tmp->q.questionName<<endl;
     answerFile<<tmp->q.normalAnswer<<endl;
     correctAnsFile<<tmp->q.correctAns<<endl;
@@ -159,34 +148,43 @@ void saveFile(List *ls){
 }
 
 inline void addMoreQ(List *ls) {
+  int inputInt;
   bool found = false;
-  int count = 1;
-  while (1) {
-    cout<<"Enter question index: ";
+  bool done = false;
+  int count = 0;
+  while (!done) {
+    cout<<"Enter question index (0 - back to menu): ";
     cin>>q.questionIndex;
-    if (checkQuestionID(ls, q.questionIndex, found)) {
+    if(q.questionIndex == 0){
+      exit("Going back to menu");
+      return;
+    }
+     if (checkQuestionID(ls, q.questionIndex, found)) {
       cout << "Id already exists" << endl;
-      cout << "Please try again" << endl;
+      cout << "Please try again" << endl<<endl;
       addMoreQ(ls);
     } else {
       inputString("Enter q name: ", &q.questionName);
       inputString("Enter normal answer: ", &q.normalAns);
       inputString("Enter the correct answer: ", &q.correctAns);
-    }
-    AddQuestion(ls, q.questionIndex, q.questionName, q.normalAns ,q.correctAns);
-    cout << "<<< Successfully added the question to the list >>>" << endl;
-    count++;
-    cout << "Add more (1 - Continue), (0 - Finish)? >>>>> ";
-    cin >> inputInt;
-    if (inputInt == 0) {
-      cout << "<<< You have added " << count << " question(s) to the list >>>"
-           << endl;
-      cout << "Press any key to continue";
-      _getch();
-      
-      break;
-    } else if (inputInt == 1) {
-      addMoreQ(ls);
+      count++;
+      AddQuestion(ls, q.questionIndex, q.questionName, q.normalAns ,q.correctAns);
+      cout << "<<< Successfully added the question to the list >>>" << endl;
+      cout << "Add more (1 - Continue), (0 - Finish)? >>>>> ";
+      cin >> inputInt;
+      if (inputInt == 0) {
+        cout << "<<< You have added " << count << " question(s) to the list >>>"
+             << endl;
+        _sleep(500);
+        done = true;
+        break;
+      } else if (inputInt == 1) {
+        addMoreQ(ls);
+      }
+      else{
+        invalidOpt();
+        addMoreQ(ls);
+      }
     }
     break;
   }
@@ -215,6 +213,7 @@ inline void deleteNode(List *ls, Element *tmp, bool *remove) {
 }
 
 inline void deleteQuestion(List *ls) {
+  int inputInt;
   bool remove = false;
   Element *e;
   e = ls->head;
@@ -224,7 +223,7 @@ inline void deleteQuestion(List *ls) {
             "(0 - Menu) >>>>> ";
     cin >> inputInt;
     if (inputInt == 1) {
-      // addMoreQ(ls);
+      addMoreQ(ls);
     } else if (inputInt == 0) {
       return;
     }
@@ -234,7 +233,7 @@ inline void deleteQuestion(List *ls) {
   e = findQuestionPos(ls, inputInt);
   // no id
   if (e == NULL) {
-    cout << "The question ID: " << inputStr
+    cout << "The question ID: " << inputInt
          << " doesn't seem to exist (1 - Continue), (0 - Menu) >>>>> ";
     cin >> inputInt;
     if (inputInt == 1) {
@@ -263,12 +262,23 @@ inline void deleteQuestion(List *ls) {
 }
 
 inline void editQuestion(List *ls) {
+  int inputInt;
   Element *tmp;
   bool success = false;
-  cout << "Which question do you wish to edit? >>>>> ";
-  cin >> inputInt;
-  tmp = findQuestionPos(ls, inputInt);
-  if(tmp != NULL){
+  
+  if(ls->head == NULL){
+    cout<<"There is no question to edit"<<endl;
+    cout<<"Maybe add some (1 - add question), (0 - Menu) ? >>>>> "; cin>>inputInt;
+    if(inputInt == 1){
+      addMoreQ(ls);
+    }else if(inputInt == 0){
+      cout<<"Going back to menu - Press any key to continue"<<endl;
+      _sleep(500);
+    }
+  }else  if(tmp != NULL){
+    cout << "Which question do you wish to edit? >>>>> ";
+    cin >> inputInt;
+    tmp = findQuestionPos(ls, inputInt);
     cout<<"This is the question you have selected "<<endl<<endl;
     cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
     cout << tmp->q.normalAnswer << endl;
@@ -326,12 +336,16 @@ inline void editQuestion(List *ls) {
 inline void displayQuestion(List *ls) {
   Element *tmp;
   tmp = ls->head;
-  while (tmp != NULL) {
-    cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
-    cout << tmp->q.normalAnswer << endl;
-    tmp = tmp->next;
+  if(ls->head == NULL){
+    cout<<"There is no data in the list"<<endl;
   }
-  _getch();
+  else{
+    while (tmp != NULL) {
+      cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
+      cout << tmp->q.normalAnswer << endl;
+      tmp = tmp->next;
+    }
+  }
 }
 
 void createQuestions(List *ls) {  
@@ -364,7 +378,54 @@ void createQuestions(List *ls) {
   answerFile.close();
   correctAnsFile.close();
 }
+int countAdm = 0;
+void loginAdmin(bool *adm){
+	string inputUser = "";
+	string inputPass = "";
+	string adminUsernm = "admin";
+	string adminpass = "123@admin";
+	inputString("Enter Username: ", &inputUser);
+	inputString("Enter Password: ", &inputPass);
+	if((inputUser == adminUsernm) && (inputPass == adminpass)){
+		cout<<"Welcome to Admin Mode";
+    *adm = true;
+	}else{
+		cout<<"Incorrect Password or Username"<<endl;
+		cout<<"Please try again"<<endl<<endl;
+    _sleep(500);
+    countAdm++;
+    if(countAdm == 3){
+      for(int i=3;i>=0;i--){
+        system("cls");
+        cout<<"Too many failed attempts"<<endl;
+        cout<<"Returning to menu in "<<i<<endl;
+      _sleep(1000);
+      }
+      *adm = false;
+      return;
+    }
+		loginAdmin(adm);
+	}
+}
+void displayLoginInfo(loginList* ls){
+	Node *tm;
+	tm=ls->head;
+	while(tm!=NULL){
+		cout<<tm->l.username<<endl;
+		cout<<tm->l.email<<endl;
+		cout<<tm->l.password<<endl;
+		tm=tm->next;
+	}
+  
+}
 inline void adminOpt(List *ls, loginList *loginLs) {
+  int inputInt;
+  system("cls");
+  bool adm = false;
+  loginAdmin(&adm);
+  if(!adm){
+    return;
+  }else if(adm){
   adminMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
@@ -380,7 +441,7 @@ inline void adminOpt(List *ls, loginList *loginLs) {
       // Display q
       system("cls");
       displayQuestion(ls);
-      // _getch();
+      _getch();
       adminOpt(ls, loginLs);
       break;
     case 3:
@@ -399,6 +460,8 @@ inline void adminOpt(List *ls, loginList *loginLs) {
       break;
     case 5:
       system("cls");
+      displayLoginInfo(loginLs);
+      _getch();
       // View Test taker login info
       cout << "WIP" << endl;
       break;
@@ -417,6 +480,7 @@ inline void adminOpt(List *ls, loginList *loginLs) {
       cout << "Invalid option" << endl;
       break;
     }
+  }
   }
 }
 
