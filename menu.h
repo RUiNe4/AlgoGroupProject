@@ -1,6 +1,4 @@
-#include <iostream>
-#include <conio.h>
-using namespace std;
+#include "header.h"
 
 inline void exit(string msg){
   system("cls");
@@ -11,10 +9,10 @@ inline void exit(string msg){
 inline void invalidOpt(){
   system("cls");
   cout<<"Invalid option - Press any key to continue";
-  _getch();
+  // _sleep(500);
 }
 
-inline void mainMenu(){
+void mainMenu(){
   system("cls");
   cout<<"Who are you?"<<endl;
   cout<<"1 - Admin"<<endl;

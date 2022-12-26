@@ -1,140 +1,192 @@
 #include "dataStructure.h"
-using namespace std;
-//structur
-string dataOneRow;
 
-void insert(loginList* ls,string fname,string lname,string email ,string password){
-	Node *e;
-	e = new Node;
-	e->l.email=email;
-	e->l.fname=fname;
-	e->l.lname=lname;
-	e->l.password=password;
-	if(ls->n==0){
-		ls->head=e;
-		ls->tail=e;
-	}else{
-		ls->tail->next=e;
-		ls->tail=e;
-	}
-	ls->n=ls->n +1;
-}
-//input
-void signUp(string *fname,string *lname,string *email,string *password,string *rpassword){
+string loginEmailFile = "loginEmail.txt";
+string loginNameFile = "loginName.txt";
+string passwordFile = "password.txt";
 
-	cout<<"Please input you information :\n";
-	cout<<"FIRST NAME :";cin>>*fname;
-	cout<<"LAST NAME:";cin>>*lname;
-	cout<<"EMAIL :";cin>>*email;
-	cout<<"PASSWORD :";cin>>*password;
-	again:
-	cout<<"REENTER PASSWORD :";cin>>*rpassword;
-	if(*rpassword!=*password){
-		cout<<"WRONG PASSWORD !Please input again\n";
-		goto again;
-	}
+// Global Variable to sign in
+struct personInfo {
+  string username;
+  string email;
+  string password;
+  string rpassword;
+} l;
+
+void insert(loginList *ls, string password, string email, string name) {
+  Node *e;
+  e = new Node;
+  e->l.email = email;
+  e->l.username = name;
+  e->l.password = password;
+  if (ls->n == 0) {
+    e->next = NULL;
+    e->previous = NULL;
+    ls->head = e;
+    ls->tail = e;
+  } else {
+    e->next = ls->head;
+    e->previous = NULL;
+    ls->head->previous = e;
+    ls->head = e;
+  }
+  ls->n = ls->n + 1;
 }
-int checkExistEmailInFile(string email){
-    fstream emailf;
-    emailf.open("email.txt",ios::in);
-    while(emailf.eof()!=true){
-        dataOneRow="";
-        getline(emailf, dataOneRow);
-        if(!dataOneRow.empty()&& email==dataOneRow){
-            emailf.close();
-            return 0; //email exsit
+
+// Read login
+void readLoginInfo(loginList *ls) {
+  fstream emailFile;
+  fstream nameFile;
+  fstream passFile;
+  emailFile.open(loginEmailFile, ios::in);
+  nameFile.open(loginNameFile, ios::in);
+  passFile.open(passwordFile, ios::in);
+
+  if (!emailFile.is_open() || !nameFile.is_open() || !passFile.is_open()) {
+    cout << "Can't open File" << endl;
+  }
+  if (emailFile.peek() == EOF || nameFile.peek() == EOF ||
+      passFile.peek() == EOF) {
+    cout << "No one has registered into the system" << endl;
+  } else {
+    while (getline(passFile, l.password) && getline(emailFile, l.email) &&
+           getline(nameFile, l.username)) {
+      insert(ls, l.password, l.email, l.username);
+    }
+  }
+
+  emailFile.close();
+  nameFile.close();
+  passFile.close();
+}
+
+int checkExistUser(loginList *ls, string email, string userName, bool found) {
+  Node *tmp;
+  tmp = ls->head;
+  while (tmp != NULL) {
+    if (tmp->l.email == email || tmp->l.username == userName) {
+      found = true;
+      return found;
+    }
+    tmp = tmp->next;
+  }
+  return found;
+}
+
+// checked
+void signUp(loginList *ls) {
+  bool found = false;
+  cout << "Please input your information :\n";
+  cout << "Enter Username: ";
+  cin >> l.username;
+  cout << "EMAIL :";
+  cin >> l.email;
+  if (checkExistUser(ls, l.email, l.username, found)) {
+    cout << "User Already exist" << endl;
+    cout << "Please try a different username or email" << endl << endl;
+    signUp(ls);
+  } else {
+  again:
+    cout << "PASSWORD :";
+    cin >> l.password;
+    cout << "REENTER PASSWORD :";
+    cin >> l.rpassword;
+    if (l.password != l.rpassword) {
+      cout << "WRONG PASSWORD !Please input again\n";
+      goto again;
+    }
+    insert(ls, l.rpassword, l.email, l.username);
+    cout << l.username << " has successfully registered" << endl;
+  }
+}
+
+inline Node *findUserPos(loginList *ls, string inputStr) {
+
+  Node *tmp;
+  tmp = ls->head;
+  while (tmp != NULL) {
+    if (tmp->l.email == inputStr) {
+      return tmp;
+    } else if (tmp->l.username == inputStr) {
+      return tmp;
+    } else {
+      tmp = tmp->next;
+    }
+  }
+
+  return NULL;
+}
+
+int countLog = 0;
+void Login(loginList *ls) {
+  string inputStr;
+  Node *tmp;
+  bool exist = true;
+	system("cls");
+  inputString("Enter username: ", &inputStr);
+	// cout<<inputStr<<endl;
+  tmp = findUserPos(ls, inputStr);
+	if (tmp == NULL) {
+    exist = false;
+	}
+	inputString("Enter password: ", &l.password);
+	if(exist){
+		if ((inputStr == tmp->l.username || inputStr == tmp->l.email) &&
+        (l.password == tmp->l.password)) {
+      cout << "Welcome back " << tmp->l.username << endl;
+			_sleep(500);
+    } else {
+      cout << "Incorrect Credentials" << endl;
+			cout<<"Please try again"<<endl;
+			_sleep(500);
+      countLog++;
+      if (countLog == 3) {
+        for (int i = 3; i >= 0; i--) {
+          system("cls");
+          cout << "Too many failed attempts" << endl;
+          cout << "Returning to menu in " << i << endl;
+          _sleep(1000);
         }
+        	return;
+      }
+				Login(ls);
     }
-    emailf.close();
-    return 1;
-}
-int checkExistpassword(string password){
-    fstream passf;
-    passf.open("password.txt",ios::in);
-    while(passf.eof()!=true){
-        dataOneRow="";
-        getline(passf, dataOneRow);
-        if(!dataOneRow.empty()&& password==dataOneRow){
-            passf.close();
-            return 0; //email exsit
-        }
-    }
-    passf.close();
-    return 1;
-}
-void Login(){
-    string email,password;
-    cout<<"Enter email: ";
-		fflush(stdin); getline(cin, email);
-    cout<<"Enter password:"; 
-		fflush(stdin); getline (cin, password);
-    if(checkExistEmailInFile(email)==0 && checkExistpassword(password)==0){
-        cout<<"Welcome back name"<<endl;
-    }else if(checkExistEmailInFile(email)==1 && checkExistpassword(password)==1){
-        cout<<"Incorrect Password"<<endl;
-    }
-}
-void displayLoginInfo(loginList* ls){
-	Node *tm;
-	tm=ls->head;
-	while(tm!=NULL){
-		cout<<tm->l.fname<<" "<<tm->l.lname<<endl;
-		cout<<tm->l.email<<endl;
-		cout<<tm->l.password;
-		tm=tm->next;
 	}
-}
+	else if(!exist){
+		cout << "User Doesn't seem to exist";
+		_getch();
+		Login(ls);
+	}
 
-void writeNameEmail(loginList* ls){
-	Node *tem;
-	Node *te;
-	string t;
-	tem=new Node;
-	te=new Node;
-	tem=ls->head;
-	te=tem->next;
-	fstream file;
-	file.open("name.txt",ios::app);
-	while(tem->next!=NULL){
-		te=tem->next;
-		while(tem->next){
-			if(tem->l.fname>te->l.fname){
-				t=tem->l.fname;
-				tem->l.fname=te->l.fname;
-				te->l.fname=t;
-			}
-			tem=tem->next;
-		}
-	  te=te->next;
-	}
-		while(tem!=NULL){
-			file<<setw(10)<<tem->l.fname<<setw(5)<<tem->l.lname<<endl;
-			tem=tem->next;
-		}
-    file.close();
-}
-void writeEmail(loginList *ls){
-	Node *te;
-	te=ls->head;
-	fstream emailf;
-	emailf.open("email.txt",ios::app);
-	while(te!=NULL){
-		emailf<<te->l.email;
-		te=te->next;
-	}
-	emailf<<endl;
-    emailf.close();
+  
+    
+  } 
+    // cout<<tmp->l.username<<endl;
+    // cout<<tmp->l.email<<endl;
+    // cout<<tmp->l.password<<endl;
 
-}
-void writePass(loginList *ls){
-	Node *te;
-	te=ls->head;
-	fstream passf;
-	passf.open("password.txt",ios::app);
-	while(te!=NULL){
-		passf<<te->l.password;;
-		te=te->next;
-	}
-	passf<<endl;
-	passf.close();
+
+
+// checked
+
+void saveLoginFile(loginList *ls) {
+  fstream emailFile;
+  fstream nameFile;
+  fstream passFile;
+  emailFile.open(loginEmailFile, ios::out);
+  nameFile.open(loginNameFile, ios::out);
+  passFile.open(passwordFile, ios::out);
+
+  Node *tmp;
+  tmp = ls->head;
+
+  while (tmp != NULL) {
+    emailFile << tmp->l.email << endl;
+    nameFile << tmp->l.username << endl;
+    passFile << tmp->l.password << endl;
+    tmp = tmp->next;
+  }
+
+  emailFile.close();
+  nameFile.close();
+  passFile.close();
 }

@@ -1,7 +1,4 @@
-#include <iostream>
-#include <string>
-
-using namespace std;
+#include "header.h"
 
 void inputString(string msg, string *str){
   cout<<msg;

@@ -6,3 +6,4 @@
 #include <conio.h>
 // #include <conio.h>
 // #include <curse.h>
+using namespace std;
