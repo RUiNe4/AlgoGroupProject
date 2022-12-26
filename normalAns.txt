@@ -1,15 +1,57 @@
-a.Functionname{}    b.Functionname[]    c.Functionname()
-a.# this is a comment   b.// this is  comment   c.- - this is a comment.
-a.system.out.println(“Hello world”);  b.print(“hello world”);  c.cout<<”hello world”;
-a.America   b.China   c.Korea
-a.1000 byte   b.1000000 byte  c.1048576 bytes
-a.1993    b.1965    c.1986
-a.Cambodese   b.Khmer   c.Khmeir
-a.England   b.USA   c.china
-a.Beijing   b.Sydney(this)    c.Tokyo
-a.Lotus   b.Wild lilly    c.Romdoul flower
-a.NIPTICT   b.ITC   c.NPIC
-a.70$   b.80$   c.90$
-a.Antarctica  b.Greenland c.Alaska
-a. 120 Celsius  b. 100 Celsius  c.80 Celsius
-a. Prek leap  b. Wat Phnom   c.Jomkadoug
+a. Prek leap b.	Wat phnom c. Jomkadoug
+a. 120 celsius b. 100 celsius c. 80 celsius
+a. Antarctica b. Greenland c. Alaska
+a. 70$ b. 80$ c. 90$
+a. NIPTICT b. ITC c. NPIC
+a. Lotus b. Wild lilly c. Romdoul flower
+a. Beijing b. Sydney(this) c. Tokyo
+a. England b. USA c. china
+a. Cambodese b. Khmer c. Khmeir
+a. 1993 b. 1965 c. 1986
+a. 1000 byte b. 1000000 byte c. 1048576 bytes
+a. America b. China c. Korea
+a. system.out.println(“Hello world”); b. print(“hello world”); c. cout<<”hello world”;
+a. # this is a comment b. // this is  comment c. - - this is a comment.
+a. Functionname{} b. Functionname[] c. Functionname()
+a. The + sign b. The & sign c. The * sign
+a. #include <iostream> b. #include <inputstr> c. #include <stream>
+a. largest(x,y) b. maximum(x,y) c. max(x,y)  
+a. % b. ^ c. * 
+a. Hyperlinks and Text Markup Language b. Hyper Text Markup Language c. Home Tool Markup Language
+a. <heading> b. <h6> c. <h1> 
+a. ios b. Htl c. Google android os
+a. 5 bits b. 7 bits c. 8 bits
+a. num = 5; b. num = 5 int; c. int num = 5;  
+a. num = 2.8 double; b. float num = 2.8; c. num = 2.8 double;
+a. printword() b. output() c. printf()
+a. exit b. break c. Void
+a. Struct b. Structs c. Structure
+a. Skin b. Muscle c. The veins
+a. Venus b. Mercury c. mars
+a. 6 b. 7 c. 8
+a. 90 b. 110 c. 118
+a. 10 b. 12 c. 4
+a. 75% b. 70% c. 80%
+a. Angkor wat b. Vishnu statue c. Mangal mahadev
+a. Elephant b. Giraffe c. Pig
+a. 15 millions b. 16 millions c. 17 millions
+a. Hun sen b. Bill gate c. Elon Musk
+a. Digital major b. Cooking major c. Agriculture major
+a. Singapore b. Brunei c. Malaysia
+a. CDs and DVDs b. RAM and ROM c. Primary and secondary
+a. Virtual Memory b. Secondary Memory c. Cache Memory
+a. ALU b. Modem c. Control Unit
+a. MS OFFICE b. Window XP c. UNIX
+a. sells program b. Use program c. Writes program
+a. Resolution is least b. Resolution the moderate c. Resolution is higher
+a. Jupiter b. Saturn c. Neptune
+a. Croatia b. France c. Brazil
+a. The nile river b. The yangtze river c. The amazon river
+a. Mount Kanchenjunga b. Mount K2 c. Mount Everest
+
+
+
+
+
+
+
