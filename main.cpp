@@ -48,7 +48,7 @@ void home(List *mainList, loginList *loginList) {
     break;
   default:
     invalidOpt();
-    _getch();
+    //_getch();
     home(mainList, loginList);
     break;
   }
@@ -61,9 +61,10 @@ int main() {
 
   loginList *loginList;
   loginList = createEmptyLoginList();
+ //  loadingBar();
   readLoginInfo(loginList);
   createQuestions(mainList);
-
+  loadingBar();
   home(mainList, loginList);
   
   return 0;
