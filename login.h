@@ -12,6 +12,8 @@ struct personInfo {
   string rpassword;
 } l;
 
+//Global Variable to login
+
 void insert(loginList *ls, string password, string email, string name) {
   Node *e;
   e = new Node;
@@ -76,31 +78,27 @@ int checkExistUser(loginList *ls, string email, string userName, bool found) {
 void signUp(loginList *ls) {
   bool found = false;
   cout << "Please input your information :\n";
-  cout << "Enter Username: ";
-  cin >> l.username;
-  cout << "EMAIL :";
-  cin >> l.email;
+  inputString("Enter username: ", &l.username);
+  inputString("Enter email: ", &l.email);
   if (checkExistUser(ls, l.email, l.username, found)) {
     cout << "User Already exist" << endl;
     cout << "Please try a different username or email" << endl << endl;
     signUp(ls);
   } else {
   again:
-    cout << "PASSWORD :";
-    cin >> l.password;
-    cout << "REENTER PASSWORD :";
-    cin >> l.rpassword;
+    inputString("Enter Password: ", &l.password);
+    inputString("Re-enter Password: ", &l.rpassword);
     if (l.password != l.rpassword) {
       cout << "WRONG PASSWORD !Please input again\n";
       goto again;
     }
     insert(ls, l.rpassword, l.email, l.username);
     cout << l.username << " has successfully registered" << endl;
+    
   }
 }
 
 inline Node *findUserPos(loginList *ls, string inputStr) {
-
   Node *tmp;
   tmp = ls->head;
   while (tmp != NULL) {
@@ -116,14 +114,16 @@ inline Node *findUserPos(loginList *ls, string inputStr) {
   return NULL;
 }
 
+
 int countLog = 0;
 void Login(loginList *ls) {
   string inputStr;
   Node *tmp;
+  fstream scoreFile;
+  scoreFile.open(ScoreList, ios::app);
   bool exist = true;
 	system("cls");
   inputString("Enter username: ", &inputStr);
-	// cout<<inputStr<<endl;
   tmp = findUserPos(ls, inputStr);
 	if (tmp == NULL) {
     exist = false;
@@ -133,6 +133,7 @@ void Login(loginList *ls) {
 		if ((inputStr == tmp->l.username || inputStr == tmp->l.email) &&
         (l.password == tmp->l.password)) {
       cout << "Welcome back " << tmp->l.username << endl;
+      scoreFile<<"\n"<<"Name: "<<tmp->l.username<<endl;
 			_sleep(500);
     } else {
       cout << "Incorrect Credentials" << endl;
@@ -156,15 +157,7 @@ void Login(loginList *ls) {
 		_getch();
 		Login(ls);
 	}
-
-  
-    
   } 
-    // cout<<tmp->l.username<<endl;
-    // cout<<tmp->l.email<<endl;
-    // cout<<tmp->l.password<<endl;
-
-
 
 // checked
 

@@ -1,47 +1,74 @@
 #include "header.h"
 
+void color1(int color_code){
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(console,color_code);
+}
+
+void welcome(){
+    color1(1);
+    cout<<"\n\n\t\t\t\t\t\t****************************"<<endl;
+    cout<<"\t\t\t\t\t\t** WELCOME TO QUIZ SYSTEM **"<<endl;
+    cout<<"\t\t\t\t\t\t****************************"<<endl<<endl;
+    color1(11);
+}
 inline void exit(string msg){
   system("cls");
+  welcome();
   cout<<msg<<endl;
-  _sleep(500);
+  _sleep(1000);
 }
 
 inline void invalidOpt(){
   system("cls");
-  cout<<"Invalid option - Press any key to continue";
-  // _sleep(500);
+  welcome();
+  cout<<"\n\n\n\t\t\t\t\t\t   Invalid option!";
+  _sleep(1000);
 }
 
 void mainMenu(){
   system("cls");
-  cout<<"Who are you?"<<endl;
-  cout<<"1 - Admin"<<endl;
-  cout<<"2 - Take Test"<<endl;
-  cout<<"3 - Exit"<<endl;
+  welcome();
+  color1(9);
+  cout<<"\t\t\t***Select your role"<<endl<<endl;
+  color1(11);
+  cout<<"\t\t1. Admin"<<endl;
+  cout<<"\t\t2. Student"<<endl;
+  cout<<"\t\t3. Exit"<<endl;
 }
 
 inline void testTakerMenu(){
   system("cls");
-  cout<<"1 - Sign up"<<endl;
-  cout<<"2 - Already have an account? ==> Take test"<<endl;
-  cout<<"3 - Back to menu"<<endl;
+  welcome();
+  color1(9);
+  cout<<"\t\t\t***Welcome Student!!*"<<endl<<endl;
+  color1(11);
+  cout<<"\t\t1. Sign up"<<endl;
+  cout<<"\t\t2. Sign in"<<endl;
+  cout<<"\t\t3. Back to main page"<<endl;
 }
 
 inline void adminMenu(){
   system("cls");
-  cout<<"1. Add questions"<<endl;
-  cout<<"2. Display Current question"<<endl;
-  cout<<"3. Remove questions"<<endl;
-  cout<<"4. Edit questions"<<endl;
-  cout<<"5. View Test take login info"<<endl;
-  cout<<"6. View Test Taker history"<<endl;
-  cout<<"7. Back to menu"<<endl;
+  welcome();
+  cout<<"\t\t\t***Welcome Admin!!*"<<endl<<endl;
+  cout<<"\t\t1. Add questions"<<endl;
+  cout<<"\t\t2. Display Current question"<<endl;
+  cout<<"\t\t3. Remove questions"<<endl;
+  cout<<"\t\t4. Edit questions"<<endl;
+  cout<<"\t\t5. View Test taker login info"<<endl;
+  cout<<"\t\t6. View Test Taker Score"<<endl;
+  cout<<"\t\t7. Back to menu"<<endl;
 }
 
 inline void studentMenu(){
   system("cls");
-  cout<<"1. Take test"<<endl;
-  cout<<"2. Display Result"<<endl;
-  cout<<"3. Back to menu"<<endl;
-  cout<<"Please select an option: ";
+  welcome();
+  color1(9);
+  cout<<"\t\t\t***Welcome Student!!*"<<endl<<endl;
+  color1(11);
+  cout<<"\t\t1. Take test"<<endl;
+  cout<<"\t\t2. Display Result"<<endl;
+  cout<<"\t\t3. Back to menu"<<endl;
+  cout<<"\t\tYour choice : ";
 }
