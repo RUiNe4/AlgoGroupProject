@@ -1,27 +1,25 @@
-#include "login.h"
+#include "dataStructure.h"
 
 void startTest(List *mainList, loginList *loginList) {
   int inputInt;
   testTakerMenu();
+  cout<<endl<<endl;
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
   switch (inputInt) {
   case 1:
     // Register
+    system("cls");
     signUp(loginList);
-    saveLoginFile(loginList);
     _getch();
     startTest(mainList, loginList);
     break; 
   case 2:
-    // Login
-    Login(loginList);  
-    studentOpt(mainList);
-    _getch();
+    studentOpt(mainList, loginList);
     startTest(mainList, loginList);
     break;
   case 3:
-    exit("Going back to menu");
+    returnMenu("Going back to menu");
     break;
   default:
     invalidOpt();
@@ -34,7 +32,7 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
   bool adm = false;
   int inputInt;
   mainMenu();
-  cout << "Enter your choice >>>>> ";
+  cout<<"\t\tEnter Your choice : ";
   cin >> inputInt;
   switch (inputInt) {
   case 1:
@@ -51,10 +49,12 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
     home(mainList, loginList, scoreList);
     break;
   case 3:
-    exit("You have successfully exit the program");
+    welcome();
+    returnMenu("\n\n\n\t\t\t\t\tYou have successfully exit the program");
     exit(0);
     break;
   default:
+    welcome();
     invalidOpt();
 
     _getch();
@@ -65,7 +65,7 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
 }
 
 int main() {
-
+  color(11);  
   // loadingBar();
   List *mainList;
   mainList = createEmptyList();
@@ -78,7 +78,9 @@ int main() {
 
   readLoginInfo(loginList);
   readQuestionFromFile(mainList);
+  
   home(mainList, loginList, scoreList);
 
   return 0;
 }
+

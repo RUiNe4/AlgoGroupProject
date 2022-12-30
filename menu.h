@@ -1,50 +1,52 @@
 #include "header.h"
 
-inline void exit(string msg){
+void welcome(){
+    color(1);
+    cout<<"\n\n\t\t\t\t\t\t****************************"<<endl;
+    cout<<"\t\t\t\t\t\t** WELCOME TO QUIZ SYSTEM **"<<endl;
+    cout<<"\t\t\t\t\t\t****************************"<<endl<<endl;
+    color(11);
+}
+void returnMenu(string msg){
   //system("clear");
+  system("cls");
   cout<<msg<<endl;
-  _sleep(500);
+  Sleep(500);
   // sleep(500);
 }
 
 inline void invalidOpt(){
   system("cls");
   //system("clear");
-  cout<<"Invalid option - Press any key to continue";
-  // _sleep(500);
+  // Sleep(500);
+  welcome();
+  cout<<"\n\n\n\t\t\t\t\t\t   Invalid option!";
+  Sleep(500);
 }
 void loadingBar()
 {
     cout<<"\t\t\t\t\t\t****************************"<<endl;
     cout<<"\t\t\t\t\t\t** WELCOME TO QUIZ SYSTEM **"<<endl;
     cout<<"\t\t\t\t\t\t****************************"<<endl<<endl;
-	// 0 - black background,
-	// A - Green Foreground
-	system("color 0D");
 
-	// Initialize char for printing
-	// loading bar
+	color(11);
+
 	char a = 177, b = 219;
 
-	// cout<<"\n\n\n\n";
 	cout<<"\n\n\n\n\t\t\t\t\t"
 		"Loading...\n\n";
 	cout<<"\t\t\t\t\t";
 
-	// Print initial loading bar
 	for (int i = 0; i < 50; i++){
 		cout<<a;
   }
-	// Set the cursor again starting
-	// point of loading bar
 	cout<<"\r";
 	cout<<"\t\t\t\t\t";
 
-	// Print loading bar progress
 	for (int i = 0; i < 50; i++) {
 		cout<<b;
   
-    _sleep(100);
+    Sleep(100);
 		// sleep(1000);
 	}
   cout<<"\n\n\n\n\t\t\t\t\t""\n\n";
@@ -54,37 +56,49 @@ void loadingBar()
 
 void mainMenu(){
   system("cls");
-  //system("clear");
-  cout<<"Who are you?"<<endl;
-  cout<<"1 - Admin"<<endl;
-  cout<<"2 - Take Test"<<endl;
-  cout<<"3 - Exit"<<endl;
+  welcome();
+  color(9);
+  cout<<"\t\t\t***Select your role"<<endl<<endl;
+  color(11);
+  cout<<"\t\t1. Admin"<<endl;
+  cout<<"\t\t2. Student"<<endl;
+  cout<<"\t\t3. Exit"<<endl;
 }
 
 inline void testTakerMenu(){
   system("cls");
-  //system("clear");
-  cout<<"1 - Sign up"<<endl;
-  cout<<"2 - Already have an account? ==> Take test"<<endl;
-  cout<<"3 - Back to menu"<<endl;
+  welcome();
+  color(9);
+  cout<<"\t\t\t***Welcome Student!!*"<<endl<<endl;
+  color(11);
+  cout<<"\t\t1. Sign up"<<endl;
+  cout<<"\t\t2. Already have an account? ==> Proceed to test"<<endl;
+  cout<<"\t\t3. Back to main page"<<endl;
 }
  void adminMenu(){
   system("cls");
-  //system("clear");
-  cout<<"1. Add questions"<<endl;
-  cout<<"2. Display Current question"<<endl;
-  cout<<"3. Remove questions"<<endl;
-  cout<<"4. Edit questions"<<endl;
-  cout<<"5. View Test taker login info"<<endl;
-  cout<<"6. View Test Taker Score"<<endl;
-  cout<<"7. Back to menu"<<endl;
+  welcome();
+  cout<<"\t\t\t***Welcome Admin!!*"<<endl<<endl;
+  cout<<"\t\t1. Add questions"<<endl;
+  cout<<"\t\t2. Display Current question"<<endl;
+  cout<<"\t\t3. Remove questions"<<endl;
+  cout<<"\t\t4. Edit questions"<<endl;
+  cout<<"\t\t5. View Test taker login info"<<endl;
+  cout<<"\t\t6. View Test Taker Score"<<endl;
+  cout<<"\t\t7. Change question size"<<endl;
+  cout<<"\t\t8. View activity History"<<endl;
+  cout<<"\t\t9. Back to menu"<<endl;
 }
 
 inline void studentMenu(){
   system("cls");
-  //system("clear");
-  cout<<"1. Take test"<<endl;
-  cout<<"2. Display Result"<<endl;
-  cout<<"3. Back to menu"<<endl;
-  cout<<"Please select an option: ";
+  welcome();
+  color(9);
+  cout<<"\t\t\t***Welcome Student!!*"<<endl<<endl;
+  color(11);
+  cout<<"\t\t1. Take Test"<<endl;
+  // cout<<"\t\t2. Display Result"<<endl;
+  cout<<"\t\t2. Back to menu"<<endl;
+  cout<<"\t\tYour choice : ";
 }
+
