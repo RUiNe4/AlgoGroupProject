@@ -10,11 +10,14 @@ void startTest(List *mainList, loginList *loginList) {
     // Register
     signUp(loginList);
     saveLoginFile(loginList);
-    break;
+    _getch();
+    startTest(mainList, loginList);
+    break; 
   case 2:
     // Login
-    Login(loginList);
-    // studentOpt(mainList);
+    Login(loginList);  
+    studentOpt(mainList);
+    _getch();
     startTest(mainList, loginList);
     break;
   case 3:
@@ -27,29 +30,33 @@ void startTest(List *mainList, loginList *loginList) {
   }
 }
 
-void home(List *mainList, loginList *loginList) {
+void home(List *mainList, loginList *loginList, List *scoreList) {
   int inputInt;
   mainMenu();
   cout << "Enter your choice >>>>> ";
   cin >> inputInt;
   switch (inputInt) {
   case 1:
-    adminOpt(mainList, loginList);
-    home(mainList, loginList);
+    system("cls");
+    loginAdmin();
+    adminOpt(mainList, loginList, scoreList);
+    home(mainList, loginList, scoreList);
     break;
   case 2:
+    system("cls");
     startTest(mainList, loginList);
-    home(mainList, loginList);
+    home(mainList, loginList, scoreList);
     break;
   case 3:
-    saveFile(mainList);
     exit("You have successfully exit the program");
     exit(0);
     break;
   default:
     invalidOpt();
-    //_getch();
-    home(mainList, loginList);
+
+    _getch();
+    home(mainList, loginList, scoreList);
+
     break;
   }
 }
@@ -61,11 +68,19 @@ int main() {
 
   loginList *loginList;
   loginList = createEmptyLoginList();
- //  loadingBar();
+
+
+
+
+
+  List *scoreList;
+  scoreList = createEmptyList();
+
   readLoginInfo(loginList);
-  createQuestions(mainList);
+  readQuestionFromFile(mainList);
   loadingBar();
-  home(mainList, loginList);
+  home(mainList, loginList, scoreList);
+
   
   return 0;
 }

@@ -75,8 +75,8 @@ inline void testTakerMenu(){
   cout<<"2. Display Current question"<<endl;
   cout<<"3. Remove questions"<<endl;
   cout<<"4. Edit questions"<<endl;
-  cout<<"5. View Test take login info"<<endl;
-  cout<<"6. View Test Taker history"<<endl;
+  cout<<"5. View Test taker login info"<<endl;
+  cout<<"6. View Test Taker Score"<<endl;
   cout<<"7. Back to menu"<<endl;
 }
 
