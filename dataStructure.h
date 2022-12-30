@@ -493,6 +493,9 @@ void loginAdmin(bool *adm) {
 void displayLoginInfo(loginList *ls) {
   Node *tm;
   tm = ls->head;
+  if(tm == NULL){
+    cout<<"No one has registered into the system yet"<<endl;
+  }
   while (tm != NULL) {
     cout << tm->l.username << endl;
     cout << tm->l.email << endl;

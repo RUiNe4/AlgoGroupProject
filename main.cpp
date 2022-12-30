@@ -66,6 +66,7 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
 
 int main() {
 
+  // loadingBar();
   List *mainList;
   mainList = createEmptyList();
 
@@ -77,7 +78,6 @@ int main() {
 
   readLoginInfo(loginList);
   readQuestionFromFile(mainList);
-  loadingBar();
   home(mainList, loginList, scoreList);
 
   return 0;
