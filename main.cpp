@@ -53,8 +53,10 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
     break;
   default:
     invalidOpt();
+
     _getch();
     home(mainList, loginList, scoreList);
+
     break;
   }
 }
@@ -67,13 +69,18 @@ int main() {
   loginList *loginList;
   loginList = createEmptyLoginList();
 
+
+
+
+
   List *scoreList;
   scoreList = createEmptyList();
 
   readLoginInfo(loginList);
   readQuestionFromFile(mainList);
-
+  loadingBar();
   home(mainList, loginList, scoreList);
+
   
   return 0;
 }
