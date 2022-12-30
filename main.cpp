@@ -69,10 +69,6 @@ int main() {
   loginList *loginList;
   loginList = createEmptyLoginList();
 
-
-
-
-
   List *scoreList;
   scoreList = createEmptyList();
 
@@ -81,6 +77,5 @@ int main() {
   loadingBar();
   home(mainList, loginList, scoreList);
 
-  
   return 0;
 }
