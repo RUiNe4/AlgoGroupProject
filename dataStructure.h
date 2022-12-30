@@ -83,17 +83,16 @@ inline void AddQuestion(List *ls, int questionIndex, string questionName,
   e->q.questionName = questionName;
   e->q.normalAnswer = normalAns;
   e->q.correctAns = correctAns;
-
+  e->next = NULL;
+  e->previous = ls->head;
   if (ls->n == 0) {
-    e->next = NULL;
-    e->previous = NULL;
     ls->head = e;
     ls->tail = e;
   } else if (ls->n != 0) {
-    e->next = ls->head;
-    e->previous = NULL;
-    ls->head->previous = e;
-    ls->head = e;
+    ls->tail->next = e;
+    e->previous = ls->tail;
+    ls->tail = e;
+    ls->tail->next = NULL;
   }
   ls->n++;
 }
@@ -186,7 +185,6 @@ inline void addMoreQ(List *ls) {
         inputString("Enter normal answer: ", &q.normalAns);
         inputString("Enter the correct answer: ", &q.correctAns);
         confirmChange("Save changes? (1 - Yes), (0 - No) >>>>> ", ls, &done);
-        cout<<"Done: "<<done<<endl;
         if(done){
         countQ++;
         AddQuestion(ls, q.questionIndex, q.questionName, q.normalAns,
@@ -271,7 +269,6 @@ inline void deleteQuestion(List *ls) {
     confirmChange("\nAre you sure to delete this question from the list? (1 - "
                   "Yes), (0 - No) >>>>> ",
                   ls, &remove);
-    cout << "Remove: " << remove << endl;
     if (remove) {
       deleteNode(ls, e);
       saveFile(ls);
@@ -418,7 +415,7 @@ inline void editQuestion(List *ls) {
 inline void displayQuestion(List *ls) {
 
   Element *tmp;
-  tmp = ls->tail;
+  tmp = ls->head;
   if (ls->head == NULL) {
     cout << "There is no data in the list" << endl;
   } else {
@@ -426,7 +423,7 @@ inline void displayQuestion(List *ls) {
 
       cout << tmp->q.questionIndex << " - " << tmp->q.questionName << endl;
       cout << tmp->q.normalAnswer << endl << endl;
-      tmp = tmp->previous;
+      tmp = tmp->next;
     }
   }
 }
@@ -466,13 +463,14 @@ void readQuestionFromFile(List *ls) {
 }
 
 int countAdm = 0;
-void loginAdmin() {
+void loginAdmin(bool *adm) {
   string inputUser;
   string inputPass;
   inputString("Enter Username: ", &inputUser);
   inputString("Enter Password: ", &inputPass);
   if ((inputUser == "admin") && (inputPass == "123@admin")) {
     cout << "Welcome to Admin Mode";
+    *adm = true;
   } else {
     cout << "Incorrect Password or Username" << endl;
     cout << "Please try again" << endl << endl;
@@ -480,6 +478,7 @@ void loginAdmin() {
     countAdm++;
     if (countAdm == 3) {
       for (int i = 3; i >= 0; i--) {
+        *adm = false;
         system("cls");
         cout << "Too many failed attempts" << endl;
         cout << "Returning to menu in " << i << endl;
@@ -487,7 +486,7 @@ void loginAdmin() {
       }
       return;
     }
-    loginAdmin();
+    loginAdmin(adm);
   }
 }
 
@@ -649,7 +648,8 @@ inline void adminOpt(List *ls, loginList *loginLs, List *scoreList) {
       break;
     default:
       system("cls");
-      cout << "Invalid option" << endl;
+      exit("Invalid Option");
+      adminOpt(ls, loginLs, scoreList);
       break;
     }
   }
@@ -728,13 +728,13 @@ inline void takeTest(List *mainList, List *accuracyList) {
     i++;
   }
   if (finalScore < 0) {
-    cout << "Sorry, You failed the test.";
+    cout << "Sorry, You failed the test."<<endl;
   } else if (finalScore > 0 && finalScore < 15) {
     cout << "Sorry, You failed the test" << endl;
-    cout << "Your Score: " << finalScore;
+    cout << "Your Score: " << finalScore<<"/30"<<endl;
   } else if (finalScore >= 15) {
     cout << "You pass the test" << endl;
-    cout << "Your Score: " << finalScore;
+    cout << "Your Score: " << finalScore<<"/30"<<endl;
   }
   scoreFile << finalScore;
   scoreFile.close();

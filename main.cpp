@@ -31,6 +31,7 @@ void startTest(List *mainList, loginList *loginList) {
 }
 
 void home(List *mainList, loginList *loginList, List *scoreList) {
+  bool adm = false;
   int inputInt;
   mainMenu();
   cout << "Enter your choice >>>>> ";
@@ -38,8 +39,10 @@ void home(List *mainList, loginList *loginList, List *scoreList) {
   switch (inputInt) {
   case 1:
     system("cls");
-    loginAdmin();
-    adminOpt(mainList, loginList, scoreList);
+    loginAdmin(&adm);
+    if(adm){
+      adminOpt(mainList, loginList, scoreList);
+    }
     home(mainList, loginList, scoreList);
     break;
   case 2:

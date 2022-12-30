@@ -2,7 +2,7 @@
 
 string loginEmailFile = "loginEmail.txt";
 string loginNameFile = "loginName.txt";
-string passwordFile = "password.txt";
+string passwordFile = "password.dat";
 
 // Global Variable to sign in
 struct personInfo {
@@ -20,16 +20,16 @@ void insert(loginList *ls, string password, string email, string name) {
   e->l.email = email;
   e->l.username = name;
   e->l.password = password;
+  e->previous = ls->head;
+  e->next = NULL;
   if (ls->n == 0) {
-    e->next = NULL;
-    e->previous = NULL;
     ls->head = e;
     ls->tail = e;
   } else {
-    e->next = ls->head;
-    e->previous = NULL;
-    ls->head->previous = e;
-    ls->head = e;
+    ls->tail->next = e;
+    e->previous = ls->tail;
+    ls->tail = e;
+    ls->tail->next = NULL;
   }
   ls->n = ls->n + 1;
 }
@@ -41,7 +41,7 @@ void readLoginInfo(loginList *ls) {
   fstream passFile;
   emailFile.open(loginEmailFile, ios::in);
   nameFile.open(loginNameFile, ios::in);
-  passFile.open(passwordFile, ios::in);
+  passFile.open(passwordFile, ios::in | ios::binary);
 
   if (!emailFile.is_open() || !nameFile.is_open() || !passFile.is_open()) {
     cout << "Can't open File" << endl;
@@ -167,7 +167,7 @@ void saveLoginFile(loginList *ls) {
   fstream passFile;
   emailFile.open(loginEmailFile, ios::out);
   nameFile.open(loginNameFile, ios::out);
-  passFile.open(passwordFile, ios::out);
+  passFile.open(passwordFile, ios::binary | ios::out);
 
   Node *tmp;
   tmp = ls->head;
